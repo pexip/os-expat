@@ -1,3 +1,9 @@
+expat (2.0.1-7.2ubuntu1.1pexip1) pexip; urgency=low
+
+  * Prepare Pexip packaging
+
+ -- John-Mark Bell <jmb@pexip.com>  Tue, 24 Dec 2013 16:57:04 +0000
+
 expat (2.0.1-7.2ubuntu1.1) precise-security; urgency=low
 
   * SECURITY UPDATE: Denial of service via memory leak
