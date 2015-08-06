@@ -1,3 +1,12 @@
+expat (2.0.1-7.2ubuntu1.1pexip2) pexip; urgency=low
+
+  * SECURITY UPDATE: Denial of service via integer overflow
+    - debian/patches/CVE-2015-1283.dpatch: Introduce additional
+      sanity checks.
+    - CVE-2015-1283
+
+ -- John-Mark Bell <jmb@pexip.com>  Thu, 06 Aug 2015 01:11:24 +0100
+
 expat (2.0.1-7.2ubuntu1.1pexip1) pexip; urgency=low
 
   * Prepare Pexip packaging
