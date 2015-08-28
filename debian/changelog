@@ -1,3 +1,11 @@
+expat (2.0.1-7.2ubuntu1.2) precise-security; urgency=medium
+
+  * SECURITY UPDATE: integer overflows in XML_GetBuffer
+    - debian/patches/CVE-2015-1283.dpatch: add checks to lib/xmlparse.c.
+    - CVE-2015-1283
+
+ -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Fri, 28 Aug 2015 09:33:57 -0400
+
 expat (2.0.1-7.2ubuntu1.1) precise-security; urgency=low
 
   * SECURITY UPDATE: Denial of service via memory leak
