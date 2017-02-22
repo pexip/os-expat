@@ -1,3 +1,96 @@
+expat (2.1.0-6+deb8u3pexip1) pexip; urgency=low
+
+  * Migrate to Jessie
+
+ -- John-Mark Bell <jmb@pexip.com>  Wed, 22 Feb 2017 02:55:42 +0000
+
+expat (2.1.0-6+deb8u3) jessie-security; urgency=high
+
+  * Use upstream fix for the following security vulnerabilities:
+     - CVE-2012-6702, unanticipated internal calls to srand
+     - CVE-2016-5300, use of too little entropy
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 05 Jun 2016 08:32:26 +0000
+
+expat (2.1.0-6+deb8u2) jessie-security; urgency=high
+
+  * Avoid relying on undefined behavior in CVE-2015-1283 fix.
+  * Apply upstream patch to fix the root cause of CVE-2016-0718 and
+    CVE-2016-0719 vulnerabilities.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Mon, 16 May 2016 05:51:27 +0000
+
+expat (2.1.0-6+deb8u1) jessie-security; urgency=high
+
+  * Fix CVE-2015-1283, multiple integer overflows in the XML_GetBuffer
+    function.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Fri, 24 Jul 2015 15:40:33 +0000
+
+expat (2.1.0-6) unstable; urgency=low
+
+  * Really do the Ubuntu sync (closes: #748250).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Wed, 04 Jun 2014 15:54:15 +0000
+
+expat (2.1.0-5) unstable; urgency=low
+
+  * Move to Standards-Version 3.9.5 and to debhelper level 9 .
+  * Sync with Ubuntu.
+
+  [ Matthias Klose <doko@ubuntu.com> ]
+  * Use dh-autoreconf (closes: #748250).
+  * Enable parallel builds.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 18 May 2014 20:43:19 +0200
+
+expat (2.1.0-4) unstable; urgency=low
+
+  * New maintainer (closes: #660681).
+  * Update to Standards-Version 3.9.4 , no changes needed.
+  * Move to compat level 8 .
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 07 Jul 2013 12:43:10 +0200
+
+expat (2.1.0-3) unstable; urgency=low
+
+  * QA upload, set maintainer address to the QA team.
+  * Move expat_config.h into the multiarch include location.
+  * Make libexpat1-dev Multi-Arch: same.
+  * Update config.{guess,sub} for aarch64 (Wookey). Closes: #689619.
+  * Don't ship the pkgconfig file in lib64expat1-dev. Closes: #706932.
+
+ -- Matthias Klose <doko@debian.org>  Wed, 08 May 2013 11:13:47 +0200
+
+expat (2.1.0-1) unstable; urgency=low
+
+  * QA upload.
+  * expat 2.1.0 release.
+
+ -- Matthias Klose <doko@debian.org>  Wed, 04 Apr 2012 10:22:55 +0200
+
+expat (2.1.0~beta3-2) unstable; urgency=medium
+
+  * Fix symbol version for XML_SetHashSalt. Addresses #665362.
+
+ -- Matthias Klose <doko@debian.org>  Fri, 23 Mar 2012 17:33:01 +0100
+
+expat (2.1.0~beta3-1) unstable; urgency=low
+
+  * QA upload.
+  * Beta release 2.1.0 beta3. Closes: #663579.
+    - CVE-2012-1147 - Resource leak in readfilemap.c.
+    - CVE-2012-1148 - Memory leak in poolGrow.
+    - CVE-2012-0876 - Hash DOS attack.
+    - Remove patches applied upstream.
+  * Remove Daniel from uploaders (orphaned package).
+  * Update package format to 3.0.
+  * Enable hardened build. Closes: #653526.
+  * Add a symbols file.
+  * Install expat pkgconfig file.
+
+ -- Matthias Klose <doko@debian.org>  Tue, 20 Mar 2012 22:37:22 +0100
+
 expat (2.0.1-7.2ubuntu1.4pexip1) pexip; urgency=low
 
   * New upstream release

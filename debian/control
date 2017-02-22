@@ -2,18 +2,14 @@ Source: expat
 Section: text
 Priority: optional
 Maintainer: Pexip AS <packaging@pexip.com>
-XSBC-Pexip-Original-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-XSBC-Original-Maintainer: Debian XML/SGML Group <debian-xml-sgml-pkgs@lists.alioth.debian.org>
-XSBC-Pexip-Original-Uploaders: Ardo van Rangelrooij <ardo@debian.org>,
- Daniel Leidert (dale) <daniel.leidert@wgdd.de>
-Standards-Version: 3.8.3
-Build-Depends: debhelper (>= 8.1.3), dpatch, docbook-to-man,
+XSBC-Pexip-Original-Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.org>
+Standards-Version: 3.9.5
+Build-Depends: debhelper (>= 9), docbook-to-man, dh-autoreconf,
  dpkg-dev (>= 1.16.0),
  gcc-multilib [i386 powerpc sparc s390]
 Homepage: http://expat.sourceforge.net
 Vcs-Browser: http://svn.debian.org/wsvn/debian-xml-sgml/packages/expat/trunk/
 Vcs-Svn: svn://svn.debian.org/svn/debian-xml-sgml/packages/expat/trunk/
-DM-Upload-Allowed: yes
 XS-Pexip-Upstream: http://ftp.debian.org/debian/ jessie
 
 Package: lib64expat1-dev
@@ -47,6 +43,7 @@ Description: XML parsing C library - runtime library (64bit)
 Package: libexpat1-dev
 Section: libdevel
 Architecture: any
+Multi-Arch: same
 Provides: libexpat-dev
 Conflicts: libexpat-dev
 Depends: ${misc:Depends}, libexpat1 (= ${binary:Version}), libc6-dev | libc-dev
