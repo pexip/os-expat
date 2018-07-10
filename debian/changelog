@@ -1,3 +1,9 @@
+expat (2.2.0-2+deb9u1pexip1) pexip; urgency=medium
+
+  * Migrate to Stretch
+
+ -- John-Mark Bell <jmb@pexip.com>  Tue, 10 Jul 2018 10:51:56 +0000
+
 expat (2.2.0-2+deb9u1) stretch-security; urgency=high
 
   * Replace the Mozilla CVE-2016-9063 fix with the more complete, upstream
