@@ -94,7 +94,7 @@ ifneq ($(BUILD64),)
 	$(MAKE) $(NJOBS) -C build64/ buildlib
 	$(MAKE) $(NJOBS) -C buildw64/ buildlib LIBRARY=libexpatw.la
 endif
-	docbook-to-man doc/xmlwf.sgml > debian/xmlwf.1
+#	docbook-to-man doc/xmlwf.sgml > debian/xmlwf.1
 	touch $@
 
 install: build
@@ -124,23 +124,24 @@ binary-indep: build install
 binary-arch: build install
 	dh_testdir
 	dh_testroot
-	dh_install -s --sourcedir=debian/tmp
-	dh_installdocs -s
-	dh_installman -pexpat debian/xmlwf.1
-	dh_installexamples -s
-	dh_installchangelogs -s Changes
-	dh_link -s
-	dh_strip -s
-	dh_compress -s
-	dh_fixperms -s
+	dh_install -a --sourcedir=debian/tmp
+	dh_installdocs -a
+	dh_installman -a
+#	dh_installman -pexpat debian/xmlwf.1
+	dh_installexamples -a
+	dh_installchangelogs -a Changes
+	dh_link -a
+	dh_strip -a
+	dh_compress -a
+	dh_fixperms -a
 	chmod 644 $(CURDIR)/debian/libexpat1-dev/usr/share/doc/libexpat1-dev/examples/* \
 	          $(CURDIR)/debian/libexpat1-dev/usr/share/aclocal/*
-	dh_makeshlibs -s -V --add-udeb=$(UPACKAGE)
-	dh_installdeb -s
-	dh_shlibdeps -s -l $(CURDIR)/debian/libexpat1/usr/lib/$(DEB_HOST_MULTIARCH):$(CURDIR)/debian/lib64expat1/usr/lib64
-	dh_gencontrol -s
-	dh_md5sums -s
-	dh_builddeb -s
+	dh_makeshlibs -a -V --add-udeb=$(UPACKAGE)
+	dh_installdeb -a
+	dh_shlibdeps -a -l $(CURDIR)/debian/libexpat1/usr/lib/$(DEB_HOST_MULTIARCH):$(CURDIR)/debian/lib64expat1/usr/lib64
+	dh_gencontrol -a
+	dh_md5sums -a
+	dh_builddeb -a
 
 binary: binary-indep binary-arch
 

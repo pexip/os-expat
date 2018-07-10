@@ -3,7 +3,7 @@ Section: text
 Priority: optional
 Maintainer: Pexip AS <packaging@pexip.com>
 XSBC-Pexip-Original-Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.org>
-Standards-Version: 3.9.5
+Standards-Version: 3.9.8
 Build-Depends: debhelper (>= 9), docbook-to-man, dh-autoreconf,
  dpkg-dev (>= 1.16.0),
  gcc-multilib [i386 powerpc sparc s390]

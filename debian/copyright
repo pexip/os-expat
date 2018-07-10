@@ -2,8 +2,9 @@ This is the Debian package of expat, the C library for parsing XML.
 
 The source package was downloaded from <URL:http://expat.sourceforge.net>.
 
-The original packager is Adam Di Carlo <aph@debian.org>.  The current
-maintainer is Ardo van Rangelrooij <ardo@debian.org>.
+The original packager is Adam Di Carlo <aph@debian.org>, later Ardo van
+Rangelrooij <ardo@debian.org> maintained the package. Now Laszlo Boszormenyi
+(GCS) <gcs@debian.org> looks after it.
 
 Copyright (c) 1998, 1999, 2000 Thai Open Source Software Center Ltd
                                and Clark Cooper

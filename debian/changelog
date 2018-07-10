@@ -1,45 +1,71 @@
+expat (2.2.0-2+deb9u1) stretch-security; urgency=high
+
+  * Replace the Mozilla CVE-2016-9063 fix with the more complete, upstream
+    one.
+  * Fix CVE-2017-9233: external entity infinite loop DoS.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sat, 17 Jun 2017 21:31:56 +0000
+
+expat (2.2.0-2) unstable; urgency=high
+
+  * Use fix from Mozilla for CVE-2016-9063: integer overflow during the
+    parsing of XML.
+  * Replace deprecated -s debhelper switch with the -a one.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Mon, 02 Jan 2017 21:12:32 +0000
+
+expat (2.2.0-1) unstable; urgency=low
+
+  * New upstream release, update symbols accordingly.
+  * Use upstream manpage for xmlwf.
+  * Drop all patches as this release contains those.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Tue, 21 Jun 2016 15:29:58 +0000
+
+expat (2.1.1-3) unstable; urgency=high
+
+  * Use upstream fix for the following security vulnerabilities:
+    - CVE-2012-6702, unanticipated internal calls to srand
+    - CVE-2016-5300, use of too little entropy
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 05 Jun 2016 00:17:46 +0000
+
+expat (2.1.1-2) unstable; urgency=high
+
+  * Avoid relying on undefined behavior in CVE-2015-1283 fix.
+  * Apply upstream patch to fix the root cause of CVE-2016-0718 and
+    CVE-2016-0719 vulnerabilities.
+  * Update Standards-Version to 3.9.8 .
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Mon, 16 May 2016 05:35:08 +0000
+
+expat (2.1.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * Remove all patches, applied upstream.
+  * Update Standards-Version to 3.9.7 .
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sat, 12 Mar 2016 07:28:07 +0100
+
+expat (2.1.0-7) unstable; urgency=high
+
+  * Fix CVE-2015-1283, multiple integer overflows in the XML_GetBuffer
+    function (closes: #793484).
+  * Update Standards-Version to 3.9.6 .
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Fri, 24 Jul 2015 14:48:45 +0000
+
 expat (2.1.0-6+deb8u4pexip1) pexip; urgency=low
 
   * New upstream release
 
  -- John-Mark Bell <jmb@pexip.com>  Mon, 26 Jun 2017 12:31:38 +0100
 
-expat (2.1.0-6+deb8u4) jessie-security; urgency=high
-
-  * Use upstream fix for the following vulnerabilities:
-    - CVE-2017-9233, external entity infinite loop bug,
-    - CVE-2016-9063, undefined behavior from signed integer overflow.
-
- -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 18 Jun 2017 06:54:14 +0000
-
 expat (2.1.0-6+deb8u3pexip1) pexip; urgency=low
 
   * Migrate to Jessie
 
  -- John-Mark Bell <jmb@pexip.com>  Wed, 22 Feb 2017 02:55:42 +0000
-
-expat (2.1.0-6+deb8u3) jessie-security; urgency=high
-
-  * Use upstream fix for the following security vulnerabilities:
-     - CVE-2012-6702, unanticipated internal calls to srand
-     - CVE-2016-5300, use of too little entropy
-
- -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 05 Jun 2016 08:32:26 +0000
-
-expat (2.1.0-6+deb8u2) jessie-security; urgency=high
-
-  * Avoid relying on undefined behavior in CVE-2015-1283 fix.
-  * Apply upstream patch to fix the root cause of CVE-2016-0718 and
-    CVE-2016-0719 vulnerabilities.
-
- -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Mon, 16 May 2016 05:51:27 +0000
-
-expat (2.1.0-6+deb8u1) jessie-security; urgency=high
-
-  * Fix CVE-2015-1283, multiple integer overflows in the XML_GetBuffer
-    function.
-
- -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Fri, 24 Jul 2015 15:40:33 +0000
 
 expat (2.1.0-6) unstable; urgency=low
 
