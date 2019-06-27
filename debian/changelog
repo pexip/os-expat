@@ -1,3 +1,10 @@
+expat (2.2.0-2+deb9u2) stretch-security; urgency=high
+
+  * Fix extraction of namespace prefix from XML name (CVE-2018-20843)
+    (closes: #931031).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Thu, 27 Jun 2019 19:10:58 +0000
+
 expat (2.2.0-2+deb9u1) stretch-security; urgency=high
 
   * Replace the Mozilla CVE-2016-9063 fix with the more complete, upstream
