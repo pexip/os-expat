@@ -1,25 +1,110 @@
-expat (2.2.0-2+deb9u3) stretch-security; urgency=high
+expat (2.2.6-2+deb10u1) buster-security; urgency=high
 
   * Non-maintainer upload by the Security Team.
   * xmlparse.c: Deny internal entities closing the doctype (CVE-2019-15903)
     (Closes: #939394)
 
- -- Salvatore Bonaccorso <carnil@debian.org>  Thu, 19 Sep 2019 23:43:05 +0200
+ -- Salvatore Bonaccorso <carnil@debian.org>  Thu, 19 Sep 2019 23:13:41 +0200
 
-expat (2.2.0-2+deb9u2) stretch-security; urgency=high
+expat (2.2.6-2) unstable; urgency=high
 
   * Fix extraction of namespace prefix from XML name (CVE-2018-20843)
     (closes: #931031).
 
- -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Thu, 27 Jun 2019 19:10:58 +0000
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Mon, 24 Jun 2019 21:18:31 +0000
 
-expat (2.2.0-2+deb9u1) stretch-security; urgency=high
+expat (2.2.6-1) unstable; urgency=medium
 
-  * Replace the Mozilla CVE-2016-9063 fix with the more complete, upstream
-    one.
-  * Fix CVE-2017-9233: external entity infinite loop DoS.
+  * New upstream release.
+  * Disable Vcs-* fields for now.
+  * Update Standards-Version to 4.1.5 .
 
- -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sat, 17 Jun 2017 21:31:56 +0000
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Wed, 15 Aug 2018 15:18:15 +0000
+
+expat (2.2.5-3) unstable; urgency=medium
+
+  * Don't install irrelevant README.md (closes: #884818).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Wed, 20 Dec 2017 00:17:04 +0000
+
+expat (2.2.5-2) unstable; urgency=medium
+
+  * Upload to Sid.
+  * Install AUTHORS file.
+  * Update project homepage.
+  * Migrate d/copyright to format 1.0 .
+  * Update debhelper level to 11 .
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 17 Dec 2017 07:33:25 +0000
+
+expat (2.2.5-1) experimental; urgency=medium
+
+  * New upstream release (closes: #883708).
+  * Use the main source for packaging (closes: #874177).
+  * Drop outdated multilib packages (closes: #775942, #779459).
+  * Add docbook2x build dependency.
+  * Update libexpat1 symbols.
+  * Update Standards-Version to 4.1.2 .
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sat, 16 Dec 2017 07:24:56 +0000
+
+expat (2.2.3-2) unstable; urgency=medium
+
+  * Do not install .la files (closes: #880110).
+  * Don't expose libbsd-dev dependency on libexpat1-dev .
+  * Update Standards-Version to 4.1.1:
+    - change libexpat1-udeb priority to optional.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 05 Nov 2017 13:01:19 +0000
+
+expat (2.2.3-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Remove dh-autoreconf build dependency.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Wed, 02 Aug 2017 19:54:40 +0000
+
+expat (2.2.2-2) unstable; urgency=medium
+
+  * Build with libbsd on Hurd as well.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 16 Jul 2017 14:23:03 +0000
+
+expat (2.2.2-1) unstable; urgency=high
+
+  * New upstream release:
+    - fix non-NULL parser parameter validation in XML_Parse; resulted in
+      NULL dereference.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Thu, 13 Jul 2017 22:46:33 +0000
+
+expat (2.2.1-3) unstable; urgency=medium
+
+  * Add libbsd-dev dependency to libexpat1-dev on kFreeBSD architectures
+    (closes: #867252).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Wed, 05 Jul 2017 17:45:36 +0000
+
+expat (2.2.1-2) unstable; urgency=medium
+
+  * Fix mis-detection of getrandom() on kFreeBSD.
+  * Utilize libbsd for arc4random_buf() on kFreeBSD.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Thu, 22 Jun 2017 21:05:46 +0000
+
+expat (2.2.1-1) unstable; urgency=high
+
+  * New upstream release:
+    - upstream fix for CVE-2016-9063 to prevent undefined behavior from signed
+      integer overflow,
+    - fix CVE-2017-9233: external entity infinite loop DoS,
+    - fix regression from fix to CVE-2016-0718 cutting off longer tag names,
+    - use high quality entropy for hash initialization for part of
+      CVE-2016-5300,
+    - change hash algorithm to William Ahern's version of SipHash to go
+      further with fixing CVE-2012-0876.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sat, 17 Jun 2017 20:48:02 +0000
 
 expat (2.2.0-2) unstable; urgency=high
 

@@ -9,9 +9,8 @@
 DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 DEB_HOST_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_HOST_ARCH      ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+DEB_HOST_ARCH_OS   ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
 DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
-
-BUILD64 = $(filter $(DEB_HOST_ARCH), i386 powerpc sparc s390)
 
 ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
 	CONFFLAGS = --build=$(DEB_HOST_GNU_TYPE)
@@ -19,17 +18,8 @@ else
 	CONFFLAGS = --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE)
 endif
 
-ifeq ($(DEB_HOST_ARCH),i386)
-	HOST64FLAG = --host=x86_64-linux-gnu
-endif
-ifeq ($(DEB_HOST_ARCH),powerpc)
-	HOST64FLAG = --host=ppc64-linux-gnu
-endif
-ifeq ($(DEB_HOST_ARCH),sparc)
-	HOST64FLAG = --host=sparc64-linux-gnu
-endif
-ifeq ($(DEB_HOST_ARCH),s390)
-	HOST64FLAG = --host=s390x-linux-gnu
+ifneq (,$(filter $(DEB_HOST_ARCH_OS), kfreebsd hurd))
+	CONFFLAGS += --with-libbsd
 endif
 
 # -pthread -D_REENTRANT #551079
@@ -50,35 +40,32 @@ endif
 
 config-common-stamp:
 	dh_testdir
-	dh_autoreconf
+	rm -rf $(CURDIR)/src $(CURDIR)/srcw
+	mkdir -p $(CURDIR)/src $(CURDIR)/srcw
+	tar cf - expat/* | tar --strip-components=1 -C $(CURDIR)/src   -xf -
+	tar cf - expat/* | tar --strip-components=1 -C $(CURDIR)/srcw -xf -
+	sed -i -e "s,libexpat\.la,libexpatw.la," \
+		-e "s,libexpat_la,libexpatw_la," \
+		$$(find srcw -name Makefile.am)
+	cd $(CURDIR)/src ; ./buildconf.sh
+	cd $(CURDIR)/srcw; ./buildconf.sh
 	touch $@
 
 build/config.status: config-common-stamp
 	dh_testdir
 	(mkdir -p $(@D); cd $(@D); CFLAGS="$(CFLAGS)" CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" \
-	 ../configure $(CONFFLAGS) --prefix=/usr --mandir=\$${prefix}/share/man --libdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH))
+	 ../src/configure $(CONFFLAGS) --prefix=/usr --mandir=\$${prefix}/share/man --libdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH))
 
 buildw/config.status: config-common-stamp
 	dh_testdir
 	(mkdir -p $(@D); cd $(@D); CFLAGS="$(CFLAGS) -DXML_UNICODE" CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" \
-	 ../configure $(CONFFLAGS) --prefix=/usr --mandir=\$${prefix}/share/man --libdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH))
-
-build64/config.status: config-common-stamp
-	dh_testdir
-	(mkdir -p $(@D); cd $(@D); CFLAGS="-m64 $(CFLAGS)" CPPFLAGS="$(CPPFLAGS)"  LDFLAGS="$(LDFLAGS)" \
-	 ../configure $(CONFFLAGS) $(HOST64FLAG) --prefix=/usr --mandir=\$${prefix}/share/man \
-	 --libdir=\$${prefix}/lib64)
-
-buildw64/config.status: config-common-stamp
-	dh_testdir
-	(mkdir -p $(@D); cd $(@D); CFLAGS="-m64 $(CFLAGS) -DXML_UNICODE" CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" \
-	 ../configure $(CONFFLAGS) $(HOST64FLAG) --prefix=/usr --mandir=\$${prefix}/share/man \
-	 --libdir=\$${prefix}/lib64)
+	 ../srcw/configure $(CONFFLAGS) --prefix=/usr --mandir=\$${prefix}/share/man --libdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH))
 
 clean:
 	dh_testdir
 	dh_testroot
-	rm -rf build/ build64/ buildw/ buildw64/
+	rm -rf src/ srcw/
+	rm -rf build/ buildw/
 	rm -rf debian/tmp/
 	dh_autoreconf_clean
 	dh_clean config-common-stamp build-stamp debian/xmlwf.1
@@ -86,14 +73,10 @@ clean:
 build: build-stamp
 build-arch: build-stamp
 build-indep: build-stamp
-build-stamp: build/config.status buildw/config.status $(if $(BUILD64), build64/config.status buildw64/config.status)
+build-stamp: build/config.status buildw/config.status
 	dh_testdir
 	$(MAKE) $(NJOBS) -C build/
-	$(MAKE) $(NJOBS) -C buildw/ buildlib LIBRARY=libexpatw.la
-ifneq ($(BUILD64),)
-	$(MAKE) $(NJOBS) -C build64/ buildlib
-	$(MAKE) $(NJOBS) -C buildw64/ buildlib LIBRARY=libexpatw.la
-endif
+	$(MAKE) $(NJOBS) -C buildw/lib all
 #	docbook-to-man doc/xmlwf.sgml > debian/xmlwf.1
 	touch $@
 
@@ -103,11 +86,7 @@ install: build
 	dh_prep
 	dh_installdirs
 	$(MAKE) -C build/ install DESTDIR=$(CURDIR)/debian/tmp
-	$(MAKE) -C buildw/ installlib LIBRARY=libexpatw.la DESTDIR=$(CURDIR)/debian/tmp APIHEADER=
-ifneq ($(BUILD64),)
-	$(MAKE) -C build64/ installlib DESTDIR=$(CURDIR)/debian/tmp
-	$(MAKE) -C buildw64/ installlib LIBRARY=libexpatw.la DESTDIR=$(CURDIR)/debian/tmp APIHEADER=
-endif
+	$(MAKE) -C buildw/lib install DESTDIR=$(CURDIR)/debian/tmp APIHEADER=
 	# Move libexpat.so.* to /lib so that zfsutils can use it.
 	mkdir -p $(CURDIR)/debian/tmp/lib/$(DEB_HOST_MULTIARCH)
 	mv $(CURDIR)/debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/libexpat.so.* \
@@ -125,11 +104,12 @@ binary-arch: build install
 	dh_testdir
 	dh_testroot
 	dh_install -a --sourcedir=debian/tmp
+	rm debian/libexpat1-dev/usr/share/doc/libexpat1-dev/expat.html/Makefile.am
 	dh_installdocs -a
 	dh_installman -a
 #	dh_installman -pexpat debian/xmlwf.1
 	dh_installexamples -a
-	dh_installchangelogs -a Changes
+	dh_installchangelogs -a expat/Changes
 	dh_link -a
 	dh_strip -a
 	dh_compress -a
@@ -138,7 +118,7 @@ binary-arch: build install
 	          $(CURDIR)/debian/libexpat1-dev/usr/share/aclocal/*
 	dh_makeshlibs -a -V --add-udeb=$(UPACKAGE)
 	dh_installdeb -a
-	dh_shlibdeps -a -l $(CURDIR)/debian/libexpat1/usr/lib/$(DEB_HOST_MULTIARCH):$(CURDIR)/debian/lib64expat1/usr/lib64
+	dh_shlibdeps -a -l $(CURDIR)/debian/libexpat1/usr/lib/$(DEB_HOST_MULTIARCH)
 	dh_gencontrol -a
 	dh_md5sums -a
 	dh_builddeb -a
