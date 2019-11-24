@@ -1,3 +1,17 @@
+expat (2.2.0-2+deb9u3pexip1) pexip; urgency=high
+
+  * Debian security update
+
+ -- Vincent Sanders <vince@pexip.com>  Fri, 15 Nov 2019 15:29:13 +0000
+
+expat (2.2.0-2+deb9u3) stretch-security; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * xmlparse.c: Deny internal entities closing the doctype (CVE-2019-15903)
+    (Closes: #939394)
+
+ -- Salvatore Bonaccorso <carnil@debian.org>  Thu, 19 Sep 2019 23:43:05 +0200
+
 expat (2.2.0-2+deb9u2pexip1) pexip; urgency=high
 
   * Debian security update
