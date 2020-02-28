@@ -5,14 +5,14 @@ Subject: [PATCH] xmlparse.c: Fix extraction of namespace prefix from XML name
  (#186)
 
 ---
- lib/xmlparse.c | 2 +-
+ expat/lib/xmlparse.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
 index 30d55c5c..737d7cd2 100644
---- a/lib/xmlparse.c
-+++ b/lib/xmlparse.c
-@@ -5483,7 +5483,7 @@ setElementTypePrefix(XML_Parser parser, ELEMENT_TYPE *elementType)
+--- a/expat/lib/xmlparse.c
++++ b/expat/lib/xmlparse.c
+@@ -6080,7 +6080,7 @@ setElementTypePrefix(XML_Parser parser, ELEMENT_TYPE *elementType)
        else
          poolDiscard(&dtd->pool);
        elementType->prefix = prefix;

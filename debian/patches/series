@@ -1,4 +1,2 @@
-CVE-2016-9063.patch
-CVE-2017-9233.patch
 Fix_extraction_of_namespace_prefix_from_XML_name.patch
 xmlparse.c-Deny-internal-entities-closing-the-doctyp.patch
