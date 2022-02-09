@@ -1,3 +1,18 @@
+expat (2.2.6-2+deb10u2) buster-security; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * lib: Detect and prevent troublesome left shifts in function storeAtts
+    (CVE-2021-45960) (Closes: #1002994)
+  * lib: Prevent integer overflow on m_groupSize in function doProlog
+    (CVE-2021-46143)
+  * lib: Prevent integer overflow at multiple places (CVE-2022-22822,
+    CVE-2022-22823, CVE-2022-22824, CVE-2022-22825, CVE-2022-22826,
+    CVE-2022-22827) (Closes: #1003474)
+  * lib: Detect and prevent integer overflow in XML_GetBuffer (CVE-2022-23852)
+  * lib: Prevent integer overflow in doProlog (CVE-2022-23990)
+
+ -- Salvatore Bonaccorso <carnil@debian.org>  Wed, 09 Feb 2022 15:18:06 +0100
+
 expat (2.2.6-2+deb10u1) buster-security; urgency=high
 
   * Non-maintainer upload by the Security Team.
