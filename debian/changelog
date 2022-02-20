@@ -1,3 +1,22 @@
+expat (2.2.6-2+deb10u3) buster-security; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * Prevent stack exhaustion in build_model (CVE-2022-25313)
+  * Prevent integer overflow in storeRawNames (CVE-2022-25315)
+  * Prevent integer overflow in copyString (CVE-2022-25314)
+  * lib: Fix (harmless) use of uninitialized memory
+  * lib: Protect against malicious namespace declarations (CVE-2022-25236)
+    (Closes: #1005895)
+  * tests: Cover CVE-2022-25236
+  * lib: Drop unused macro UTF8_GET_NAMING
+  * lib: Add missing validation of encoding (CVE-2022-25235)
+    (Closes: #1005894)
+  * tests: Cover missing validation of encoding (CVE-2022-25235)
+  * Fix build_model regression.
+  * tests: Protect against nested element declaration model regressions
+
+ -- Salvatore Bonaccorso <carnil@debian.org>  Sun, 20 Feb 2022 17:19:40 +0100
+
 expat (2.2.6-2+deb10u2) buster-security; urgency=high
 
   * Non-maintainer upload by the Security Team.
