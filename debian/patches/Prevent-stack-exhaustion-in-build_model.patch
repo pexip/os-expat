@@ -79,25 +79,22 @@ base64 -d poc.xml.zst.b64 | zstd -d > poc.xml
 ```
 
 Co-authored-by: Sebastian Pipping <sebastian@pipping.org>
-[Salvatore Bonaccorso: Backport to 2.2.6 for context changes]
 ---
  expat/lib/xmlparse.c | 116 +++++++++++++++++++++++++++++--------------
  1 file changed, 79 insertions(+), 37 deletions(-)
 
+diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
+index 4b43e6132169..594cf12c18bd 100644
 --- a/expat/lib/xmlparse.c
 +++ b/expat/lib/xmlparse.c
-@@ -7299,51 +7299,16 @@ nextScaffoldPart(XML_Parser parser)
+@@ -7317,44 +7317,15 @@ nextScaffoldPart(XML_Parser parser) {
    return next;
  }
  
 -static void
--build_node(XML_Parser parser,
--           int src_node,
--           XML_Content *dest,
--           XML_Content **contpos,
--           XML_Char **strpos)
--{
--  DTD * const dtd = parser->m_dtd;  /* save one level of indirection */
+-build_node(XML_Parser parser, int src_node, XML_Content *dest,
+-           XML_Content **contpos, XML_Char **strpos) {
+-  DTD *const dtd = parser->m_dtd; /* save one level of indirection */
 -  dest->type = dtd->scaffold[src_node].type;
 -  dest->quant = dtd->scaffold[src_node].quant;
 -  if (dest->type == XML_CTYPE_NAME) {
@@ -106,21 +103,19 @@ Co-authored-by: Sebastian Pipping <sebastian@pipping.org>
 -    src = dtd->scaffold[src_node].name;
 -    for (;;) {
 -      *(*strpos)++ = *src;
--      if (!*src)
+-      if (! *src)
 -        break;
 -      src++;
 -    }
 -    dest->numchildren = 0;
 -    dest->children = NULL;
--  }
--  else {
+-  } else {
 -    unsigned int i;
 -    int cn;
 -    dest->numchildren = dtd->scaffold[src_node].childcnt;
 -    dest->children = *contpos;
 -    *contpos += dest->numchildren;
--    for (i = 0, cn = dtd->scaffold[src_node].firstchild;
--         i < dest->numchildren;
+-    for (i = 0, cn = dtd->scaffold[src_node].firstchild; i < dest->numchildren;
 -         i++, cn = dtd->scaffold[cn].nextsib) {
 -      build_node(parser, cn, &(dest->children[i]), contpos, strpos);
 -    }
@@ -129,25 +124,24 @@ Co-authored-by: Sebastian Pipping <sebastian@pipping.org>
 -}
 -
  static XML_Content *
- build_model (XML_Parser parser)
- {
+ build_model(XML_Parser parser) {
 +  /* Function build_model transforms the existing parser->m_dtd->scaffold
 +   * array of CONTENT_SCAFFOLD tree nodes into a new array of
 +   * XML_Content tree nodes followed by a gapless list of zero-terminated
 +   * strings. */
-   DTD * const dtd = parser->m_dtd;  /* save one level of indirection */
+   DTD *const dtd = parser->m_dtd; /* save one level of indirection */
    XML_Content *ret;
 -  XML_Content *cpos;
--  XML_Char * str;
-+  XML_Char * str; /* the current string writing location */
+-  XML_Char *str;
++  XML_Char *str; /* the current string writing location */
  
    /* Detect and prevent integer overflow.
     * The preprocessor guard addresses the "always false" warning
-@@ -7369,10 +7334,81 @@ build_model (XML_Parser parser)
-   if (!ret)
+@@ -7380,10 +7351,81 @@ build_model(XML_Parser parser) {
+   if (! ret)
      return NULL;
  
--  str =  (XML_Char *) (&ret[dtd->scaffCount]);
+-  str = (XML_Char *)(&ret[dtd->scaffCount]);
 -  cpos = &ret[1];
 +  /* What follows is an iterative implementation (of what was previously done
 +   * recursively in a dedicated function called "build_node".  The old recursive
@@ -228,3 +222,6 @@ Co-authored-by: Sebastian Pipping <sebastian@pipping.org>
    return ret;
  }
  
+-- 
+2.34.1
+

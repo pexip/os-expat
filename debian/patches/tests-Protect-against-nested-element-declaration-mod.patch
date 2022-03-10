@@ -8,9 +8,11 @@ Bug: https://github.com/libexpat/libexpat/pull/566
  expat/tests/runtests.c | 77 ++++++++++++++++++++++++++++++++++++++++++
  1 file changed, 77 insertions(+)
 
+diff --git a/expat/tests/runtests.c b/expat/tests/runtests.c
+index 2cd4acbe91da..e28670d2f6c1 100644
 --- a/expat/tests/runtests.c
 +++ b/expat/tests/runtests.c
-@@ -2860,6 +2860,82 @@ START_TEST(test_dtd_elements)
+@@ -2664,6 +2664,82 @@ START_TEST(test_dtd_elements) {
  }
  END_TEST
  
@@ -91,13 +93,16 @@ Bug: https://github.com/libexpat/libexpat/pull/566
 +END_TEST
 +
  /* Test foreign DTD handling */
- START_TEST(test_set_foreign_dtd)
- {
-@@ -12202,6 +12278,7 @@ make_suite(void)
-     tcase_add_test(tc_basic, test_memory_allocation);
-     tcase_add_test(tc_basic, test_default_current);
-     tcase_add_test(tc_basic, test_dtd_elements);
-+    tcase_add_test(tc_basic, test_dtd_elements_nesting);
-     tcase_add_test(tc_basic, test_set_foreign_dtd);
-     tcase_add_test(tc_basic, test_foreign_dtd_not_standalone);
-     tcase_add_test(tc_basic, test_invalid_foreign_dtd);
+ START_TEST(test_set_foreign_dtd) {
+   const char *text1 = "<?xml version='1.0' encoding='us-ascii'?>\n";
+@@ -11863,6 +11939,7 @@ make_suite(void) {
+   tcase_add_test(tc_basic, test_memory_allocation);
+   tcase_add_test(tc_basic, test_default_current);
+   tcase_add_test(tc_basic, test_dtd_elements);
++  tcase_add_test(tc_basic, test_dtd_elements_nesting);
+   tcase_add_test__ifdef_xml_dtd(tc_basic, test_set_foreign_dtd);
+   tcase_add_test__ifdef_xml_dtd(tc_basic, test_foreign_dtd_not_standalone);
+   tcase_add_test__ifdef_xml_dtd(tc_basic, test_invalid_foreign_dtd);
+-- 
+2.34.1
+

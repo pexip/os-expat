@@ -1,9 +1,8 @@
-Fix_extraction_of_namespace_prefix_from_XML_name.patch
-xmlparse.c-Deny-internal-entities-closing-the-doctyp.patch
 lib-Detect-and-prevent-troublesome-left-shifts-in-fu.patch
 lib-Prevent-integer-overflow-on-m_groupSize-in-funct.patch
 lib-Prevent-integer-overflow-at-multiple-places-CVE-.patch
 lib-Detect-and-prevent-integer-overflow-in-XML_GetBu.patch
+tests-Cover-integer-overflow-in-XML_GetBuffer-CVE-20.patch
 lib-Prevent-integer-overflow-in-doProlog-CVE-2022-23.patch
 Prevent-stack-exhaustion-in-build_model.patch
 Prevent-integer-overflow-in-storeRawNames.patch
@@ -13,6 +12,7 @@ lib-Protect-against-malicious-namespace-declarations.patch
 tests-Cover-CVE-2022-25236.patch
 lib-Drop-unused-macro-UTF8_GET_NAMING.patch
 lib-Add-missing-validation-of-encoding-CVE-2022-2523.patch
+lib-Add-comments-to-BT_LEAD-cases-where-encoding-has.patch
 tests-Cover-missing-validation-of-encoding-CVE-2022-.patch
 Fix-build_model-regression.patch
 tests-Protect-against-nested-element-declaration-mod.patch
