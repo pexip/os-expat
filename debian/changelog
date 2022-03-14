@@ -1,3 +1,19 @@
+expat (2.2.6-2+deb10u4pexip1) pexip; urgency=medium
+
+  * New upstream version
+
+ -- Steve McIntyre <steve.mcintyre@pexip.com>  Mon, 14 Mar 2022 14:15:27 +0000
+
+expat (2.2.6-2+deb10u4) buster-security; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * lib: Relax fix to CVE-2022-25236 with regard to RFC 3986 URI characters
+  * tests: Cover relaxed fix to CVE-2022-25236
+  * lib: Document namespace separator effect right in header <expat.h>
+  * lib|doc: Add a note on namespace URI validation
+
+ -- Salvatore Bonaccorso <carnil@debian.org>  Thu, 10 Mar 2022 22:02:18 +0100
+
 expat (2.2.6-2+deb10u3pexip1) pexip; urgency=medium
 
   * New upstream version
