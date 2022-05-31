@@ -1,10 +1,4 @@
-expat (2.2.6-2+deb10u4pexip1) pexip; urgency=medium
-
-  * New upstream version
-
- -- Steve McIntyre <steve.mcintyre@pexip.com>  Mon, 14 Mar 2022 14:15:27 +0000
-
-expat (2.2.6-2+deb10u4) buster-security; urgency=high
+expat (2.2.10-2+deb11u3) bullseye-security; urgency=high
 
   * Non-maintainer upload by the Security Team.
   * lib: Relax fix to CVE-2022-25236 with regard to RFC 3986 URI characters
@@ -12,15 +6,9 @@ expat (2.2.6-2+deb10u4) buster-security; urgency=high
   * lib: Document namespace separator effect right in header <expat.h>
   * lib|doc: Add a note on namespace URI validation
 
- -- Salvatore Bonaccorso <carnil@debian.org>  Thu, 10 Mar 2022 22:02:18 +0100
+ -- Salvatore Bonaccorso <carnil@debian.org>  Thu, 10 Mar 2022 21:38:43 +0100
 
-expat (2.2.6-2+deb10u3pexip1) pexip; urgency=medium
-
-  * New upstream version
-
- -- Steve McIntyre <steve.mcintyre@pexip.com>  Mon, 28 Feb 2022 11:19:53 +0000
-
-expat (2.2.6-2+deb10u3) buster-security; urgency=high
+expat (2.2.10-2+deb11u2) bullseye-security; urgency=high
 
   * Non-maintainer upload by the Security Team.
   * Prevent stack exhaustion in build_model (CVE-2022-25313)
@@ -33,19 +21,15 @@ expat (2.2.6-2+deb10u3) buster-security; urgency=high
   * lib: Drop unused macro UTF8_GET_NAMING
   * lib: Add missing validation of encoding (CVE-2022-25235)
     (Closes: #1005894)
+  * lib: Add comments to BT_LEAD* cases where encoding has already been
+    validated
   * tests: Cover missing validation of encoding (CVE-2022-25235)
   * Fix build_model regression.
   * tests: Protect against nested element declaration model regressions
 
- -- Salvatore Bonaccorso <carnil@debian.org>  Sun, 20 Feb 2022 17:19:40 +0100
+ -- Salvatore Bonaccorso <carnil@debian.org>  Sun, 20 Feb 2022 17:08:18 +0100
 
-expat (2.2.6-2+deb10u2pexip1) pexip; urgency=medium
-
-  * New upstream version
-
- -- Steve McIntyre <steve.mcintyre@pexip.com>  Mon, 14 Feb 2022 09:28:09 +0000
-
-expat (2.2.6-2+deb10u2) buster-security; urgency=high
+expat (2.2.10-2+deb11u1) bullseye-security; urgency=high
 
   * Non-maintainer upload by the Security Team.
   * lib: Detect and prevent troublesome left shifts in function storeAtts
@@ -56,9 +40,65 @@ expat (2.2.6-2+deb10u2) buster-security; urgency=high
     CVE-2022-22823, CVE-2022-22824, CVE-2022-22825, CVE-2022-22826,
     CVE-2022-22827) (Closes: #1003474)
   * lib: Detect and prevent integer overflow in XML_GetBuffer (CVE-2022-23852)
+  * tests: Cover integer overflow in XML_GetBuffer (CVE-2022-23852)
   * lib: Prevent integer overflow in doProlog (CVE-2022-23990)
 
- -- Salvatore Bonaccorso <carnil@debian.org>  Wed, 09 Feb 2022 15:18:06 +0100
+ -- Salvatore Bonaccorso <carnil@debian.org>  Mon, 07 Feb 2022 22:26:48 +0100
+
+expat (2.2.10-2) unstable; urgency=medium
+
+  * Provide stage1 (bootstrap) build profile (closes: #896011).
+
+  [ Matthias Klose <doko@ubuntu.com> ]
+  * Don't build the udeb package when requested (closes: #983324).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Tue, 23 Feb 2021 17:54:13 +0100
+
+expat (2.2.10-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Update Standards-Version to 4.5.0 .
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 04 Oct 2020 07:39:41 +0200
+
+expat (2.2.9-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Update Standards-Version to 4.4.0 .
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sat, 28 Sep 2019 18:49:55 +0000
+
+expat (2.2.7-2) unstable; urgency=high
+
+  * Fix CVE-2019-15903: deny internal entities closing the doctype
+    (closes: #939394).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Wed, 04 Sep 2019 18:01:00 +0000
+
+expat (2.2.7-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Update libexpat1 symbols.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sat, 13 Jul 2019 21:46:00 +0000
+
+expat (2.2.6-2+deb10u4pexip1) pexip; urgency=medium
+
+  * New upstream version
+
+ -- Steve McIntyre <steve.mcintyre@pexip.com>  Mon, 14 Mar 2022 14:15:27 +0000
+
+expat (2.2.6-2+deb10u3pexip1) pexip; urgency=medium
+
+  * New upstream version
+
+ -- Steve McIntyre <steve.mcintyre@pexip.com>  Mon, 28 Feb 2022 11:19:53 +0000
+
+expat (2.2.6-2+deb10u2pexip1) pexip; urgency=medium
+
+  * New upstream version
+
+ -- Steve McIntyre <steve.mcintyre@pexip.com>  Mon, 14 Feb 2022 09:28:09 +0000
 
 expat (2.2.6-2+deb10u1pexip2) pexip; urgency=medium
 
@@ -71,14 +111,6 @@ expat (2.2.6-2+deb10u1pexip1) pexip; urgency=medium
   * Migrate to Buster
 
  -- Vincent Sanders <vince@pexip.com>  Fri, 28 Feb 2020 14:46:53 +0000
-
-expat (2.2.6-2+deb10u1) buster-security; urgency=high
-
-  * Non-maintainer upload by the Security Team.
-  * xmlparse.c: Deny internal entities closing the doctype (CVE-2019-15903)
-    (Closes: #939394)
-
- -- Salvatore Bonaccorso <carnil@debian.org>  Thu, 19 Sep 2019 23:13:41 +0200
 
 expat (2.2.6-2) unstable; urgency=high
 
@@ -569,7 +601,7 @@ expat (1.95.8-4) unstable; urgency=low
     (thanks Bryan Donlan <bdonlan@fushizen.net> !)
 
  -- Ardo van Rangelrooij <ardo@debian.org>  Sun, 22 Jul 2007 17:59:57 -0500
-  
+
 expat (1.95.8-3.4) unstable; urgency=low
 
   * Porter NMU.

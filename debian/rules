@@ -12,6 +12,15 @@ DEB_HOST_ARCH      ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 DEB_HOST_ARCH_OS   ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
 DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
+ifneq (,$(filter stage1, $(DEB_BUILD_PROFILES)))
+  without_docbook = --without-docbook
+  build_targets = lib xmlwf tests examples
+endif
+
+ifeq (,$(filter noudeb, $(DEB_BUILD_PROFILES)))
+  with_udeb = yes
+endif
+
 ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
 	CONFFLAGS = --build=$(DEB_HOST_GNU_TYPE)
 else
@@ -54,12 +63,12 @@ config-common-stamp:
 build/config.status: config-common-stamp
 	dh_testdir
 	(mkdir -p $(@D); cd $(@D); CFLAGS="$(CFLAGS)" CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" \
-	 ../src/configure $(CONFFLAGS) --prefix=/usr --mandir=\$${prefix}/share/man --libdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH))
+	 ../src/configure $(CONFFLAGS) --prefix=/usr --mandir=\$${prefix}/share/man --libdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH) $(without_docbook))
 
 buildw/config.status: config-common-stamp
 	dh_testdir
 	(mkdir -p $(@D); cd $(@D); CFLAGS="$(CFLAGS) -DXML_UNICODE" CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" \
-	 ../srcw/configure $(CONFFLAGS) --prefix=/usr --mandir=\$${prefix}/share/man --libdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH))
+	 ../srcw/configure $(CONFFLAGS) --prefix=/usr --mandir=\$${prefix}/share/man --libdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH) $(without_docbook))
 
 clean:
 	dh_testdir
@@ -75,7 +84,7 @@ build-arch: build-stamp
 build-indep: build-stamp
 build-stamp: build/config.status buildw/config.status
 	dh_testdir
-	$(MAKE) $(NJOBS) -C build/
+	$(MAKE) $(NJOBS) -C build/ $(build_targets)
 	$(MAKE) $(NJOBS) -C buildw/lib all
 #	docbook-to-man doc/xmlwf.sgml > debian/xmlwf.1
 	touch $@
@@ -85,6 +94,12 @@ install: build
 	dh_testroot
 	dh_prep
 	dh_installdirs
+ifneq (,$(filter stage1, $(DEB_BUILD_PROFILES)))
+	# fake manpage
+	mkdir -p $(CURDIR)/debian/tmp/usr/share/man/man1/
+	echo '.SH NAME\nxmlwf - dummy manpage' \
+		>$(CURDIR)/debian/tmp/usr/share/man/man1/xmlwf.1
+endif
 	$(MAKE) -C build/ install DESTDIR=$(CURDIR)/debian/tmp
 	$(MAKE) -C buildw/lib install DESTDIR=$(CURDIR)/debian/tmp APIHEADER=
 	# Move libexpat.so.* to /lib so that zfsutils can use it.
@@ -116,7 +131,7 @@ binary-arch: build install
 	dh_fixperms -a
 	chmod 644 $(CURDIR)/debian/libexpat1-dev/usr/share/doc/libexpat1-dev/examples/* \
 	          $(CURDIR)/debian/libexpat1-dev/usr/share/aclocal/*
-	dh_makeshlibs -a -V --add-udeb=$(UPACKAGE)
+	dh_makeshlibs -a -V $(if $(with_udeb),--add-udeb=$(UPACKAGE))
 	dh_installdeb -a
 	dh_shlibdeps -a -l $(CURDIR)/debian/libexpat1/usr/lib/$(DEB_HOST_MULTIARCH)
 	dh_gencontrol -a
