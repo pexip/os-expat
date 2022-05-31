@@ -9,7 +9,7 @@ Build-Depends: debhelper (>= 11), docbook-to-man, docbook2x,
 Homepage: https://libexpat.github.io/
 #Vcs-Browser: http://svn.debian.org/wsvn/debian-xml-sgml/packages/expat/trunk/
 #Vcs-Svn: svn://svn.debian.org/svn/debian-xml-sgml/packages/expat/trunk/
-XS-Pexip-Upstream: http://ftp.debian.org/debian/ buster
+XS-Pexip-Upstream: http://deb.debian.org/debian/ bullseye
 
 Package: libexpat1-dev
 Section: libdevel
