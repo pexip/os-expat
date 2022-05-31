@@ -37,12 +37,13 @@ xmlwf_SOURCES = \
     codepage.c \
     @FILEMAP@.c
 
-xmlwf_CPPFLAGS = -I$(srcdir)/../lib
+xmlwf_CPPFLAGS = @AM_CPPFLAGS@ -I$(srcdir)/../lib
+xmlwf_LDFLAGS = @AM_LDFLAGS@
 
 if MINGW
 if UNICODE
 xmlwf_CPPFLAGS += -mwindows
-xmlwf_LDFLAGS = -municode
+xmlwf_LDFLAGS += -municode
 endif
 endif
 
@@ -56,6 +57,4 @@ EXTRA_DIST = \
     xmlfile.h \
     xmlmime.c \
     xmlmime.h \
-    xmltchar.h \
-    xmlurl.h \
-    xmlwin32url.cxx
+    xmltchar.h
