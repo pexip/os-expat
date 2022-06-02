@@ -1,3 +1,9 @@
+expat (2.2.10-2+deb11u3pexip1) pexip; urgency=medium
+
+  * Initial bullseye build
+
+ -- Mark Hymers <mark.hymers@pexip.com>  Thu, 02 Jun 2022 14:42:10 +0100
+
 expat (2.2.10-2+deb11u3) bullseye-security; urgency=high
 
   * Non-maintainer upload by the Security Team.
