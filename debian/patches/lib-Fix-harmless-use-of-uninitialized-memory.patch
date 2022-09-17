@@ -4,24 +4,25 @@ Subject: lib: Fix (harmless) use of uninitialized memory
 Origin: https://github.com/libexpat/libexpat/commit/6881a4fc8596307ab9ff2e85e605afa2e413ab71
 Bug: https://github.com/libexpat/libexpat/pull/561
 
-[Salvatore Bonacorso: Backport to 2.2.6 for context changes]
 ---
  expat/lib/xmlparse.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
+diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
+index 902895d5fa6b..c768f856bad3 100644
 --- a/expat/lib/xmlparse.c
 +++ b/expat/lib/xmlparse.c
-@@ -661,8 +661,7 @@ XML_ParserCreate(const XML_Char *encodin
+@@ -718,8 +718,7 @@ XML_ParserCreate(const XML_Char *encodingName) {
+ 
  XML_Parser XMLCALL
- XML_ParserCreateNS(const XML_Char *encodingName, XML_Char nsSep)
- {
+ XML_ParserCreateNS(const XML_Char *encodingName, XML_Char nsSep) {
 -  XML_Char tmp[2];
 -  *tmp = nsSep;
 +  XML_Char tmp[2] = {nsSep, 0};
    return XML_ParserCreate_MM(encodingName, NULL, tmp);
  }
  
-@@ -1288,8 +1287,7 @@ XML_ExternalEntityParserCreate(XML_Parse
+@@ -1344,8 +1343,7 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser, const XML_Char *context,
       would be otherwise.
    */
    if (parser->m_ns) {
@@ -29,5 +30,8 @@ Bug: https://github.com/libexpat/libexpat/pull/561
 -    *tmp = parser->m_namespaceSeparator;
 +    XML_Char tmp[2] = {parser->m_namespaceSeparator, 0};
      parser = parserCreate(encodingName, &parser->m_mem, tmp, newDtd);
-   }
-   else {
+   } else {
+     parser = parserCreate(encodingName, &parser->m_mem, NULL, newDtd);
+-- 
+2.34.1
+
