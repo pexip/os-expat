@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#! /bin/bash
 # Copyright (C) Sebastian Pipping <sebastian@pipping.org>
 # Licensed under the MIT license
 
@@ -26,12 +26,7 @@ _get_build_dir() {
         char_part=__unsigned_char
     fi
 
-    local xml_attr_part=
-    if ${xml_attr_info_enabled}; then
-        xml_attr_part=__attr_info
-    fi
-
-    echo "build__${version}__unicode_${unicode_enabled}__xml_context_${xml_context}${libbsd_part}${mingw_part}${char_part}${xml_attr_part}"
+    echo "build__${version}__unicode_${unicode_enabled}__xml_context_${xml_context}${libbsd_part}${mingw_part}${char_part}"
 }
 
 
@@ -40,27 +35,25 @@ _get_coverage_dir() {
 }
 
 
-_call_cmake() {
-    local cmake_args=()
+_configure() {
+    local configure_args=()
 
     ${unicode_enabled} \
-            && cmake_args+=( -DEXPAT_CHAR_TYPE=wchar_t )
-
-    ${xml_attr_info_enabled} \
-            && cmake_args+=( -DEXPAT_ATTR_INFO=ON )
+            && configure_args+=( CPPFLAGS='-DXML_UNICODE -DXML_UNICODE_WCHAR_T' )
 
     if [[ ${xml_context} -eq 0 ]]; then
-        cmake_args+=( -DEXPAT_CONTEXT_BYTES=OFF )
+        configure_args+=( --disable-xml-context )
     else
-        cmake_args+=( -DEXPAT_CONTEXT_BYTES=${xml_context} )
+        configure_args+=( --enable-xml-context=${xml_context} )
     fi
 
-    ${with_libbsd} && cmake_args+=( -DEXPAT_WITH_LIBBSD=ON )
-    ${with_mingw} && cmake_args+=( -DCMAKE_TOOLCHAIN_FILE="${abs_source_dir}"/cmake/mingw-toolchain.cmake )
+    ${with_libbsd} && configure_args+=( --with-libbsd )
+    ${with_mingw} && configure_args+=( --host=i686-w64-mingw32 )
 
     (
         set -x
-        cmake "${cmake_args[@]}" "$@" . &>> cmake.log
+        ./buildconf.sh &> configure.log
+        ./configure "${configure_args[@]}" "$@" &>> configure.log
     )
 }
 
@@ -87,22 +80,13 @@ _copy_missing_mingw_libaries() {
         )
     done
 
-    local mingw_pthread_dll="$(ls -1 /usr/i686-w64-mingw32/lib*/libwinpthread-1.dll 2>/dev/null | head -n1)"
-    if [[ -n ${mingw_pthread_dll} ]]; then
-        local mingw_pthread_dll_dir="$(dirname "${mingw_pthread_dll}")"
-        for dll in libwinpthread-1.dll; do
-            source="${mingw_pthread_dll_dir}"/${dll}
-            (
-                set -x
-                ln -s "${source}" "${target}"/${dll}
-            )
-        done
-    fi
-
-    for dll in libexpat{,w}.dll; do
+    local mingw_pthread_dll_dir="$(dirname "$(ls -1 /usr/i686-w64-mingw32/lib*/libwinpthread-1.dll | head -n1)")"
+    for dll in libwinpthread-1.dll; do
+        source="${mingw_pthread_dll_dir}"/${dll}
+        [[ -e "${source}" ]] || continue
         (
             set -x
-            ln -s "${abs_build_dir}"/${dll} "${target}"/${dll}
+            ln -s "${source}" "${target}"/${dll}
         )
     done
 }
@@ -111,9 +95,7 @@ _copy_missing_mingw_libaries() {
 _run() {
     local source_dir="$1"
     local build_dir="$2"
-    local abs_source_dir="${PWD}/${source_dir}"
-    local abs_build_dir="${PWD}/${build_dir}"
-    local capture_dir=.
+    local capture_dir=lib
 
     local BASE_FLAGS='-pipe -Wall -Wextra -pedantic -Wno-overlength-strings'
     BASE_FLAGS+=' --coverage --no-inline'
@@ -127,26 +109,26 @@ _run() {
         set -e
         cd "${build_dir}"
 
-        _call_cmake \
-                -DCMAKE_C_FLAGS="${CFLAGS}" \
-                -DCMAKE_CXX_FLAGS="${CXXFLAGS}"
+        _configure \
+                CFLAGS="${BASE_FLAGS}" \
+                CXXFLAGS="${BASE_FLAGS}"
 
         (
             set -x
-            make &> build.log
+            make -C lib &> build.log
 
             lcov -c -d "${capture_dir}" -i -o "${coverage_info}-zero" &> run.log
         )
 
         if ${with_mingw}; then
-            for d in tests xmlwf ; do
+            for d in {tests,xmlwf}/.libs ; do
                 mkdir -p "${d}"
                 _copy_missing_mingw_libaries "${d}"
             done
         fi
 
         set -x
-        make CTEST_OUTPUT_ON_FAILURE=1 test run-xmltest
+        make all check run-xmltest
 
         lcov -c -d "${capture_dir}" -o "${coverage_info}-test" &>> run.log
         lcov \
@@ -176,7 +158,7 @@ _merge_coverage_info() {
 
     mkdir -p "${coverage_dir}"
     (
-        local lcov_merge_args=( -q )
+        local lcov_merge_args=()
         for build_dir in "${build_dirs[@]}"; do
             lcov_merge_args+=( -a "${build_dir}/${coverage_info}" )
         done
@@ -184,38 +166,19 @@ _merge_coverage_info() {
 
         set -x
         lcov "${lcov_merge_args[@]}"
-    ) |& tee "${coverage_dir}/merge.log"
-}
-
-
-_clean_coverage_info() {
-    local coverage_dir="$1"
-    local dir
-    for dir in CMakeFiles examples tests ; do
-        local pattern="*/${dir}/*"
-        (
-            set -x
-            lcov -q -o "${coverage_dir}/${coverage_info}" -r "${coverage_dir}/${coverage_info}" "${pattern}"
-        ) |& tee "${coverage_dir}/clean.log"
-    done
+    ) &> "${coverage_dir}/merge.log"
 }
 
 
 _render_html_report() {
     local coverage_dir="$1"
-    (
-        set -x
-        genhtml -o "${coverage_dir}" "${coverage_dir}/${coverage_info}" &> "${coverage_dir}/render.log"
-    )
+    genhtml -o "${coverage_dir}" "${coverage_dir}/${coverage_info}" &> "${coverage_dir}/render.log"
 }
 
 
 _show_summary() {
     local coverage_dir="$1"
-    (
-        set -x
-        lcov -q -l "${coverage_dir}/${coverage_info}"
-    ) | grep -v '^\['
+    lcov -q -l "${coverage_dir}/${coverage_info}" | grep -v '^\['
 }
 
 
@@ -234,12 +197,6 @@ _main() {
 
         echo "[${build_dir}]"
         _copy_to "${build_dir}"
-
-        # Make sure we don't need to download xmlts.zip over and over again
-        if [[ ${#build_dirs[*]} -gt 0 ]]; then
-            ln -s "$PWD/${build_dirs[0]}/tests/xmlts.zip" "${build_dir}"/tests/
-        fi
-
         _run "${source_dir}" "${build_dir}"
 
         build_dirs+=( "${build_dir}" )
@@ -254,10 +211,8 @@ _main() {
                 continue
             fi
 
-            for xml_attr_info_enabled in true false ; do
-                for xml_context in 0 1024 ; do
-                    _build_case
-                done
+            for xml_context in 0 1024 ; do
+                _build_case
             done
         done
     done
@@ -270,17 +225,11 @@ _main() {
     echo 'Merging coverage files...'
     _merge_coverage_info "${coverage_dir}" "${build_dirs[@]}"
 
-    echo
-    echo 'Cleaning coverage files...'
-    _clean_coverage_info "${coverage_dir}"
-
-    echo
     echo 'Rendering HTML report...'
     _render_html_report "${coverage_dir}"
     echo "--> ${coverage_dir}/index.html"
 
     echo
-    echo 'Rendering ASCII report...'
     _show_summary "${coverage_dir}"
 }
 
