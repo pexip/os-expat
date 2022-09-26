@@ -1,3 +1,9 @@
+expat (2.2.10-2+deb11u4pexip1) pexip-bullseye; urgency=medium
+
+  * New upstream release.
+
+ -- Mark Hymers <mark.hymers@pexip.com>  Mon, 26 Sep 2022 11:14:15 +0100
+
 expat (2.2.10-2+deb11u4) bullseye-security; urgency=high
 
   * Backport security fix for CVE-2022-40674: heap use-after-free issue in
