@@ -20,3 +20,5 @@ lib-Relax-fix-to-CVE-2022-25236-with-regard-to-RFC-3.patch
 tests-Cover-relaxed-fix-to-CVE-2022-25236.patch
 lib-Document-namespace-separator-effect-right-in-hea.patch
 lib-doc-Add-a-note-on-namespace-URI-validation.patch
+CVE-2022-40674.patch
+CVE-2022-40674_addon.patch
