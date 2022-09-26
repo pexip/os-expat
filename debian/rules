@@ -78,6 +78,9 @@ build-stamp: build/config.status buildw/config.status
 	$(MAKE) $(NJOBS) -C build/
 	$(MAKE) $(NJOBS) -C buildw/lib all
 #	docbook-to-man doc/xmlwf.sgml > debian/xmlwf.1
+#TEST	echo "##### add testsuite ########################"
+#TEST	$(MAKE) -C build/ check
+#TEST	echo "##### end testsuite ########################"
 	touch $@
 
 install: build

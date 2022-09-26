@@ -1,3 +1,21 @@
+expat (2.2.6-2+deb10u5pexip1) pexip; urgency=medium
+
+  * New upstream version with security fix
+
+ -- Steve McIntyre <steve.mcintyre@pexip.com>  Mon, 26 Sep 2022 10:24:58 +0100
+
+expat (2.2.6-2+deb10u5) buster-security; urgency=high
+
+  * Non-maintainer upload by the LTS Team.
+  * CVE-2022-40674
+    heap use-after-free issue in doContent()
+    (based on the backport for Bullseye made by Laszlo Boszormenyi)
+  * update test-* patches to be able to run testsuite
+  * debian/rules: add run of testsuite
+                  (but leave it deactivated as I only tested on amd64)
+
+ -- Thorsten Alteholz <debian@alteholz.de>  Sat, 24 Sep 2022 11:03:02 +0200
+
 expat (2.2.6-2+deb10u4pexip1) pexip; urgency=medium
 
   * New upstream version

@@ -17,7 +17,7 @@ Bug: https://github.com/libexpat/libexpat/pull/566
 +static void XMLCALL
 +element_decl_check_model(void *userData, const XML_Char *name,
 +                         XML_Content *model) {
-+  UNUSED_P(userData);
++  
 +  uint32_t errorFlags = 0;
 +
 +  /* Expected model array structure is this:
@@ -67,8 +67,8 @@ Bug: https://github.com/libexpat/libexpat/pull/566
 +  errorFlags |= ((model[5].children == NULL) ? 0 : (1u << 30));
 +  errorFlags |= ((xcstrcmp(model[5].name, XCS("xyz")) == 0) ? 0 : (1u << 31));
 +
-+  XML_SetUserData(g_parser, (void *)(uintptr_t)errorFlags);
-+  XML_FreeContentModel(g_parser, model);
++  XML_SetUserData(parser, (void *)(uintptr_t)errorFlags);
++  XML_FreeContentModel(parser, model);
 +}
 +
 +START_TEST(test_dtd_elements_nesting) {
@@ -78,14 +78,14 @@ Bug: https://github.com/libexpat/libexpat/pull/566
 +                     "]>\n"
 +                     "<foo/>";
 +
-+  XML_SetUserData(g_parser, (void *)(uintptr_t)-1);
++  XML_SetUserData(parser, (void *)(uintptr_t)-1);
 +
-+  XML_SetElementDeclHandler(g_parser, element_decl_check_model);
-+  if (XML_Parse(g_parser, text, (int)strlen(text), XML_TRUE)
++  XML_SetElementDeclHandler(parser, element_decl_check_model);
++  if (XML_Parse(parser, text, (int)strlen(text), XML_TRUE)
 +      == XML_STATUS_ERROR)
-+    xml_failure(g_parser);
++    xml_failure(parser);
 +
-+  if ((uint32_t)(uintptr_t)XML_GetUserData(g_parser) != 0)
++  if ((uint32_t)(uintptr_t)XML_GetUserData(parser) != 0)
 +    fail("Element declaration model regression detected");
 +}
 +END_TEST
