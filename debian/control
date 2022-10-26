@@ -2,10 +2,10 @@ Source: expat
 Section: text
 Priority: optional
 Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.org>
-Build-Depends: debhelper-compat (= 11), docbook-to-man,
+Build-Depends: debhelper-compat (= 13), docbook-to-man,
  docbook2x <!stage1>, libbsd-dev [kfreebsd-amd64 kfreebsd-i386 hurd-i386]
 Rules-Requires-Root: no
-Standards-Version: 4.5.0
+Standards-Version: 4.6.0
 Homepage: https://libexpat.github.io/
 
 Package: libexpat1-dev
@@ -27,7 +27,6 @@ Description: XML parsing C library - development kit
 Package: libexpat1
 Section: libs
 Architecture: any
-Conflicts: wink (<= 1.5.1060-4)
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
@@ -38,7 +37,7 @@ Description: XML parsing C library - runtime library
  might find in the XML document (like start tags).
 
 Package: libexpat1-udeb
-XC-Package-Type: udeb
+Package-Type: udeb
 Build-Profiles: <!noudeb>
 Section: debian-installer
 Priority: optional
