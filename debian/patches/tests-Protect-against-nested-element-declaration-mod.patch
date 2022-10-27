@@ -8,18 +8,16 @@ Bug: https://github.com/libexpat/libexpat/pull/566
  expat/tests/runtests.c | 77 ++++++++++++++++++++++++++++++++++++++++++
  1 file changed, 77 insertions(+)
 
-diff --git a/expat/tests/runtests.c b/expat/tests/runtests.c
-index 2cd4acbe91da..e28670d2f6c1 100644
 --- a/expat/tests/runtests.c
 +++ b/expat/tests/runtests.c
-@@ -2664,6 +2664,82 @@ START_TEST(test_dtd_elements) {
+@@ -2860,6 +2860,82 @@ START_TEST(test_dtd_elements)
  }
  END_TEST
  
 +static void XMLCALL
 +element_decl_check_model(void *userData, const XML_Char *name,
 +                         XML_Content *model) {
-+  UNUSED_P(userData);
++  
 +  uint32_t errorFlags = 0;
 +
 +  /* Expected model array structure is this:
@@ -69,8 +67,8 @@ index 2cd4acbe91da..e28670d2f6c1 100644
 +  errorFlags |= ((model[5].children == NULL) ? 0 : (1u << 30));
 +  errorFlags |= ((xcstrcmp(model[5].name, XCS("xyz")) == 0) ? 0 : (1u << 31));
 +
-+  XML_SetUserData(g_parser, (void *)(uintptr_t)errorFlags);
-+  XML_FreeContentModel(g_parser, model);
++  XML_SetUserData(parser, (void *)(uintptr_t)errorFlags);
++  XML_FreeContentModel(parser, model);
 +}
 +
 +START_TEST(test_dtd_elements_nesting) {
@@ -80,29 +78,26 @@ index 2cd4acbe91da..e28670d2f6c1 100644
 +                     "]>\n"
 +                     "<foo/>";
 +
-+  XML_SetUserData(g_parser, (void *)(uintptr_t)-1);
++  XML_SetUserData(parser, (void *)(uintptr_t)-1);
 +
-+  XML_SetElementDeclHandler(g_parser, element_decl_check_model);
-+  if (XML_Parse(g_parser, text, (int)strlen(text), XML_TRUE)
++  XML_SetElementDeclHandler(parser, element_decl_check_model);
++  if (XML_Parse(parser, text, (int)strlen(text), XML_TRUE)
 +      == XML_STATUS_ERROR)
-+    xml_failure(g_parser);
++    xml_failure(parser);
 +
-+  if ((uint32_t)(uintptr_t)XML_GetUserData(g_parser) != 0)
++  if ((uint32_t)(uintptr_t)XML_GetUserData(parser) != 0)
 +    fail("Element declaration model regression detected");
 +}
 +END_TEST
 +
  /* Test foreign DTD handling */
- START_TEST(test_set_foreign_dtd) {
-   const char *text1 = "<?xml version='1.0' encoding='us-ascii'?>\n";
-@@ -11863,6 +11939,7 @@ make_suite(void) {
-   tcase_add_test(tc_basic, test_memory_allocation);
-   tcase_add_test(tc_basic, test_default_current);
-   tcase_add_test(tc_basic, test_dtd_elements);
-+  tcase_add_test(tc_basic, test_dtd_elements_nesting);
-   tcase_add_test__ifdef_xml_dtd(tc_basic, test_set_foreign_dtd);
-   tcase_add_test__ifdef_xml_dtd(tc_basic, test_foreign_dtd_not_standalone);
-   tcase_add_test__ifdef_xml_dtd(tc_basic, test_invalid_foreign_dtd);
--- 
-2.34.1
-
+ START_TEST(test_set_foreign_dtd)
+ {
+@@ -12202,6 +12278,7 @@ make_suite(void)
+     tcase_add_test(tc_basic, test_memory_allocation);
+     tcase_add_test(tc_basic, test_default_current);
+     tcase_add_test(tc_basic, test_dtd_elements);
++    tcase_add_test(tc_basic, test_dtd_elements_nesting);
+     tcase_add_test(tc_basic, test_set_foreign_dtd);
+     tcase_add_test(tc_basic, test_foreign_dtd_not_standalone);
+     tcase_add_test(tc_basic, test_invalid_foreign_dtd);

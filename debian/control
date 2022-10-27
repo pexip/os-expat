@@ -2,11 +2,12 @@ Source: expat
 Section: text
 Priority: optional
 Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.org>
-Build-Depends: debhelper-compat (= 11), docbook-to-man,
- docbook2x <!stage1>, libbsd-dev [kfreebsd-amd64 kfreebsd-i386 hurd-i386]
-Rules-Requires-Root: no
-Standards-Version: 4.5.0
+Standards-Version: 4.1.5
+Build-Depends: debhelper (>= 11), docbook-to-man, docbook2x,
+ libbsd-dev [kfreebsd-amd64 kfreebsd-i386 hurd-i386]
 Homepage: https://libexpat.github.io/
+#Vcs-Browser: http://svn.debian.org/wsvn/debian-xml-sgml/packages/expat/trunk/
+#Vcs-Svn: svn://svn.debian.org/svn/debian-xml-sgml/packages/expat/trunk/
 
 Package: libexpat1-dev
 Section: libdevel
@@ -39,7 +40,6 @@ Description: XML parsing C library - runtime library
 
 Package: libexpat1-udeb
 XC-Package-Type: udeb
-Build-Profiles: <!noudeb>
 Section: debian-installer
 Priority: optional
 Architecture: any

@@ -7,17 +7,16 @@ Bug: https://github.com/libexpat/libexpat/issues/531
 Bug-Debian: https://bugs.debian.org/1002994
 Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2021-45960
 
+[Salvatore Bonaccorso: Backport to 2.2.6: Update for context changes]
 ---
  expat/lib/xmlparse.c | 31 +++++++++++++++++++++++++++++--
  1 file changed, 29 insertions(+), 2 deletions(-)
 
-diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
-index d730f41c3414..b47c31b054e1 100644
 --- a/expat/lib/xmlparse.c
 +++ b/expat/lib/xmlparse.c
-@@ -3414,7 +3414,13 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
+@@ -3359,7 +3359,13 @@ storeAtts(XML_Parser parser, const ENCOD
    if (nPrefixes) {
-     int j; /* hash table index */
+     int j;  /* hash table index */
      unsigned long version = parser->m_nsAttsVersion;
 -    int nsAttsSize = (int)1 << parser->m_nsAttsPower;
 +
@@ -29,9 +28,9 @@ index d730f41c3414..b47c31b054e1 100644
 +    unsigned int nsAttsSize = 1u << parser->m_nsAttsPower;
      unsigned char oldNsAttsPower = parser->m_nsAttsPower;
      /* size of hash table must be at least 2 * (# of prefixed attributes) */
-     if ((nPrefixes << 1)
-@@ -3425,7 +3431,28 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
-         ;
+     if ((nPrefixes << 1) >> parser->m_nsAttsPower) {  /* true for m_nsAttsPower = 0 */
+@@ -3368,7 +3374,28 @@ storeAtts(XML_Parser parser, const ENCOD
+       while (nPrefixes >> parser->m_nsAttsPower++);
        if (parser->m_nsAttsPower < 3)
          parser->m_nsAttsPower = 3;
 -      nsAttsSize = (int)1 << parser->m_nsAttsPower;
@@ -57,9 +56,6 @@ index d730f41c3414..b47c31b054e1 100644
 +      }
 +#endif
 +
-       temp = (NS_ATT *)REALLOC(parser, parser->m_nsAtts,
-                                nsAttsSize * sizeof(NS_ATT));
-       if (! temp) {
--- 
-2.34.1
-
+       temp = (NS_ATT *)REALLOC(parser, parser->m_nsAtts, nsAttsSize * sizeof(NS_ATT));
+       if (!temp) {
+         /* Restore actual size of memory in m_nsAtts */

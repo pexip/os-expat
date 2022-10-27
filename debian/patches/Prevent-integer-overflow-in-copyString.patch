@@ -7,23 +7,19 @@ Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2022-25314
 
 The copyString function is only used for encoding string supplied by
 the library user.
+[Salvatore Bonaccorso: Backport to 2.2.6 for context changes]
 ---
  expat/lib/xmlparse.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
-index 4b43e6132169..a39377c233e5 100644
 --- a/expat/lib/xmlparse.c
 +++ b/expat/lib/xmlparse.c
-@@ -7412,7 +7412,7 @@ getElementType(XML_Parser parser, const ENCODING *enc, const char *ptr,
+@@ -7446,7 +7446,7 @@ static XML_Char *
+ copyString(const XML_Char *s,
+            const XML_Memory_Handling_Suite *memsuite)
+ {
+-    int charsRequired = 0;
++    size_t charsRequired = 0;
+     XML_Char *result;
  
- static XML_Char *
- copyString(const XML_Char *s, const XML_Memory_Handling_Suite *memsuite) {
--  int charsRequired = 0;
-+  size_t charsRequired = 0;
-   XML_Char *result;
- 
-   /* First determine how long the string is */
--- 
-2.34.1
-
+     /* First determine how long the string is */
