@@ -22,3 +22,5 @@ lib-Document-namespace-separator-effect-right-in-hea.patch
 lib-doc-Add-a-note-on-namespace-URI-validation.patch
 CVE-2022-40674.patch
 CVE-2022-40674_addon.patch
+lib-Fix-overeager-DTD-destruction-in-XML_ExternalEnt.patch
+tests-Cover-overeager-DTD-destruction-in-XML_Externa.patch
