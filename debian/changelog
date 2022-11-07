@@ -1,3 +1,18 @@
+expat (2.2.10-2+deb11u5pexip1) pexip-bullseye; urgency=medium
+
+  * New upstream release with security fixes.
+
+ -- Steve McIntyre <steve.mcintyre@pexip.com>  Mon, 07 Nov 2022 11:47:59 +0000
+
+expat (2.2.10-2+deb11u5) bullseye-security; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * lib: Fix overeager DTD destruction in XML_ExternalEntityParserCreate
+    (CVE-2022-43680) (Closes: #1022743)
+  * tests: Cover overeager DTD destruction in XML_ExternalEntityParserCreate
+
+ -- Salvatore Bonaccorso <carnil@debian.org>  Fri, 28 Oct 2022 17:29:19 +0200
+
 expat (2.2.10-2+deb11u4pexip1) pexip-bullseye; urgency=medium
 
   * New upstream release.
