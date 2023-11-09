@@ -8,7 +8,7 @@ Build-Depends: debhelper-compat (= 11), docbook-to-man,
 Rules-Requires-Root: no
 Standards-Version: 4.5.0
 Homepage: https://libexpat.github.io/
-XS-Pexip-Upstream: http://deb.debian.org/debian/ bullseye
+XS-Pexip-Upstream: http://deb.debian.org/debian/ bookworm
 
 Package: libexpat1-dev
 Section: libdevel
