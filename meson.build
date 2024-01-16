@@ -154,7 +154,7 @@ _files = [
 # and clang-cl
 extra_kwargs = {}
 if cc.get_id() != 'gcc'
-  extra_kwargs += {'vs_module_defs' : 'lib/libexpat.def'}
+  extra_kwargs += {'vs_module_defs' : 'expat/lib/libexpat.def'}
 endif
 
 libexpat = library(
