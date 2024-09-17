@@ -1,0 +1,33 @@
+From: Snild Dolkow <snild@sony.com>
+Date: Thu, 24 Aug 2023 09:31:31 +0200
+Subject: tests: Move triplet_start_checker flag check after isFinal=1 call
+
+There is no guarantee that the callback will happen before the parse
+call with isFinal=XML_TRUE. Let's move the assertion to a location
+where we know it must have happened.
+
+Origin: https://github.com/libexpat/libexpat/commit/d52b4141496bd26bd716d88c67af8f2250bd0da6
+---
+ expat/tests/runtests.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/expat/tests/runtests.c b/expat/tests/runtests.c
+index 125f9b5..bc1742d 100644
+--- a/expat/tests/runtests.c
++++ b/expat/tests/runtests.c
+@@ -6820,13 +6820,13 @@ START_TEST(test_return_ns_triplet) {
+   if (_XML_Parse_SINGLE_BYTES(g_parser, text, (int)strlen(text), XML_FALSE)
+       == XML_STATUS_ERROR)
+     xml_failure(g_parser);
+-  if (! triplet_start_flag)
+-    fail("triplet_start_checker not invoked");
+   /* Check that unsetting "return triplets" fails while still parsing */
+   XML_SetReturnNSTriplet(g_parser, XML_FALSE);
+   if (_XML_Parse_SINGLE_BYTES(g_parser, epilog, (int)strlen(epilog), XML_TRUE)
+       == XML_STATUS_ERROR)
+     xml_failure(g_parser);
++  if (! triplet_start_flag)
++    fail("triplet_start_checker not invoked");
+   if (! triplet_end_flag)
+     fail("triplet_end_checker not invoked");
+   if (dummy_handler_flags

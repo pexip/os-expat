@@ -1,0 +1,26 @@
+From: Snild Dolkow <snild@sony.com>
+Date: Tue, 26 Sep 2023 10:31:03 +0200
+Subject: tests: Remove early comment count check in test_user_parameters
+
+Before a parse call with isFinal=XML_TRUE, there is no guarantee that
+all supplied data has been parsed. Removing the first comment count
+check removes the test's assumption of such a guarantee.
+
+Origin: https://github.com/libexpat/libexpat/commit/a5993b2d42d88e1a39124117a781a055dbb0598b
+---
+ expat/tests/runtests.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/expat/tests/runtests.c b/expat/tests/runtests.c
+index 2bdaef1..894515e 100644
+--- a/expat/tests/runtests.c
++++ b/expat/tests/runtests.c
+@@ -3880,8 +3880,6 @@ START_TEST(test_user_parameters) {
+   if (_XML_Parse_SINGLE_BYTES(g_parser, text, (int)strlen(text), XML_FALSE)
+       == XML_STATUS_ERROR)
+     xml_failure(g_parser);
+-  if (comment_count != 2)
+-    fail("Comment handler not invoked enough times");
+   /* Ensure we can't change policy mid-parse */
+   if (XML_SetParamEntityParsing(g_parser, XML_PARAM_ENTITY_PARSING_NEVER))
+     fail("Changed param entity parsing policy while parsing");

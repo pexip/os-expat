@@ -1,0 +1,87 @@
+From: Snild Dolkow <snild@sony.com>
+Date: Thu, 31 Aug 2023 14:35:48 +0200
+Subject: tests: Look for single-char match in test_abort_epilog
+
+...instead of a full-string match.
+
+These tests were depending on getting handler callbacks with exactly
+one character of data at a time. For example, if test_abort_epilog got
+"\n\r\n" in one callback, it would fail to match on the '\r', and would
+not abort parsing as expected.
+
+By searching the callback arg for the magic character rather than
+expecting a full match, the test no longer depends on exact callback
+timing.
+
+`userData` is never NULL in these tests, so that check was left out of
+the new version.
+
+Origin: https://github.com/libexpat/libexpat/commit/4978d285d205d1238c823876134c3e486a3c2fe5
+---
+ expat/tests/runtests.c | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
+
+diff --git a/expat/tests/runtests.c b/expat/tests/runtests.c
+index 7078729..f792871 100644
+--- a/expat/tests/runtests.c
++++ b/expat/tests/runtests.c
+@@ -5075,10 +5075,17 @@ END_TEST
+ /* Test aborting the parse in an epilog works */
+ static void XMLCALL
+ selective_aborting_default_handler(void *userData, const XML_Char *s, int len) {
+-  const XML_Char *match = (const XML_Char *)userData;
++  const XML_Char trigger_char = *(const XML_Char *)userData;
+ 
+-  if (match == NULL
+-      || (xcstrlen(match) == (unsigned)len && ! xcstrncmp(match, s, len))) {
++  int found = 0;
++  for (int i = 0; i < len; ++i) {
++    if (s[i] == trigger_char) {
++      found = 1;
++      break;
++    }
++  }
++
++  if (found) {
+     XML_StopParser(g_parser, resumable);
+     XML_SetDefaultHandler(g_parser, NULL);
+   }
+@@ -5086,10 +5093,10 @@ selective_aborting_default_handler(void *userData, const XML_Char *s, int len) {
+ 
+ START_TEST(test_abort_epilog) {
+   const char *text = "<doc></doc>\n\r\n";
+-  XML_Char match[] = XCS("\r");
++  XML_Char trigger_char = XCS('\r');
+ 
+   XML_SetDefaultHandler(g_parser, selective_aborting_default_handler);
+-  XML_SetUserData(g_parser, match);
++  XML_SetUserData(g_parser, &trigger_char);
+   resumable = XML_FALSE;
+   if (_XML_Parse_SINGLE_BYTES(g_parser, text, (int)strlen(text), XML_TRUE)
+       != XML_STATUS_ERROR)
+@@ -5102,10 +5109,10 @@ END_TEST
+ /* Test a different code path for abort in the epilog */
+ START_TEST(test_abort_epilog_2) {
+   const char *text = "<doc></doc>\n";
+-  XML_Char match[] = XCS("\n");
++  XML_Char trigger_char = XCS('\n');
+ 
+   XML_SetDefaultHandler(g_parser, selective_aborting_default_handler);
+-  XML_SetUserData(g_parser, match);
++  XML_SetUserData(g_parser, &trigger_char);
+   resumable = XML_FALSE;
+   expect_failure(text, XML_ERROR_ABORTED, "Abort not triggered");
+ }
+@@ -5114,10 +5121,10 @@ END_TEST
+ /* Test suspension from the epilog */
+ START_TEST(test_suspend_epilog) {
+   const char *text = "<doc></doc>\n";
+-  XML_Char match[] = XCS("\n");
++  XML_Char trigger_char = XCS('\n');
+ 
+   XML_SetDefaultHandler(g_parser, selective_aborting_default_handler);
+-  XML_SetUserData(g_parser, match);
++  XML_SetUserData(g_parser, &trigger_char);
+   resumable = XML_TRUE;
+   if (_XML_Parse_SINGLE_BYTES(g_parser, text, (int)strlen(text), XML_TRUE)
+       != XML_STATUS_SUSPENDED)

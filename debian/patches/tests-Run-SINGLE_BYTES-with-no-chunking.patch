@@ -1,0 +1,28 @@
+From: Snild Dolkow <snild@sony.com>
+Date: Tue, 26 Sep 2023 12:36:06 +0200
+Subject: tests: Run SINGLE_BYTES with no chunking
+
+...in addition to 1-to-5-byte chunks as we've done so far.
+
+By starting g_chunkSize at 0, we get to run all the tests that call
+_XML_Parse_SINGLE_BYTES() as if they just called XML_Parse(). This
+gives us extra test coverage.
+
+Origin: https://github.com/libexpat/libexpat/commit/091ba48d7a5a8fcb65ba383d81d062c6e9046a88
+---
+ expat/tests/runtests.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/expat/tests/runtests.c b/expat/tests/runtests.c
+index 2da59a7..7673fac 100644
+--- a/expat/tests/runtests.c
++++ b/expat/tests/runtests.c
+@@ -12248,7 +12248,7 @@ main(int argc, char *argv[]) {
+   if (verbosity != CK_SILENT)
+     printf("Expat version: %" XML_FMT_STR "\n", XML_ExpatVersion());
+ 
+-  for (g_chunkSize = 1; g_chunkSize <= 5; g_chunkSize++) {
++  for (g_chunkSize = 0; g_chunkSize <= 5; g_chunkSize++) {
+     char context[100];
+     snprintf(context, sizeof(context), "chunksize=%d", g_chunkSize);
+     context[sizeof(context) - 1] = '\0';

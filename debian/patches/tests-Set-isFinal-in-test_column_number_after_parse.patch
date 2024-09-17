@@ -1,0 +1,25 @@
+From: Snild Dolkow <snild@sony.com>
+Date: Thu, 24 Aug 2023 14:10:58 +0200
+Subject: tests: Set isFinal in test_column_number_after_parse
+
+Without this, parsing of the end tag may be deferred, yielding an
+unexpected column number.
+
+Origin: https://github.com/libexpat/libexpat/commit/2cee1061e2fec10633c3f02a961dabf95e85910a
+---
+ expat/tests/runtests.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/expat/tests/runtests.c b/expat/tests/runtests.c
+index bc1742d..c8e5e61 100644
+--- a/expat/tests/runtests.c
++++ b/expat/tests/runtests.c
+@@ -1081,7 +1081,7 @@ START_TEST(test_column_number_after_parse) {
+   const char *text = "<tag></tag>";
+   XML_Size colno;
+ 
+-  if (_XML_Parse_SINGLE_BYTES(g_parser, text, (int)strlen(text), XML_FALSE)
++  if (_XML_Parse_SINGLE_BYTES(g_parser, text, (int)strlen(text), XML_TRUE)
+       == XML_STATUS_ERROR)
+     xml_failure(g_parser);
+   colno = XML_GetCurrentColumnNumber(g_parser);

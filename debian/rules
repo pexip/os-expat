@@ -87,6 +87,7 @@ build-stamp: build/config.status buildw/config.status
 	$(MAKE) $(NJOBS) -C build/ $(build_targets)
 	$(MAKE) $(NJOBS) -C buildw/lib all
 #	docbook-to-man doc/xmlwf.sgml > debian/xmlwf.1
+	$(MAKE) -C build/ VERBOSE=1 check
 	touch $@
 
 install: build

@@ -1,0 +1,25 @@
+From: Snild Dolkow <snild@sony.com>
+Date: Tue, 26 Sep 2023 10:13:26 +0200
+Subject: tests: set isFinal in test_reset_in_entity
+
+Without this, parsing may be deferred so that the suspending callback
+hasn't been called when the test checks for it.
+
+Origin: https://github.com/libexpat/libexpat/commit/bb3c17198072abe89885949b85f8a0f353ac41c9
+---
+ expat/tests/runtests.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/expat/tests/runtests.c b/expat/tests/runtests.c
+index 9bdf716..2bdaef1 100644
+--- a/expat/tests/runtests.c
++++ b/expat/tests/runtests.c
+@@ -3187,7 +3187,7 @@ START_TEST(test_reset_in_entity) {
+ 
+   resumable = XML_TRUE;
+   XML_SetCharacterDataHandler(g_parser, clearing_aborting_character_handler);
+-  if (_XML_Parse_SINGLE_BYTES(g_parser, text, (int)strlen(text), XML_FALSE)
++  if (_XML_Parse_SINGLE_BYTES(g_parser, text, (int)strlen(text), XML_TRUE)
+       == XML_STATUS_ERROR)
+     xml_failure(g_parser);
+   XML_GetParsingStatus(g_parser, &status);

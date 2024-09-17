@@ -1,0 +1,92 @@
+From: Snild Dolkow <snild@sony.com>
+Date: Fri, 25 Aug 2023 18:11:55 +0200
+Subject: tests: Run SINGLE_BYTES with variously-sized chunks
+
+The _XML_Parse_SINGLE_BYTES function currently calls XML_Parse() one
+byte at a time. This is useful to detect possible parsing bugs related
+to having to exit parsing, wait for more data, and resume.
+
+This commit makes SINGLE_BYTES even more useful by repeating all tests,
+changing the chunk size every time. So instead of just one byte at a
+time, we now also test two bytes at a time, and so on. Tests that don't
+use the SINGLE_BYTES also run multiple times, but are otherwise not
+affected.
+
+This uncovered some issues, which have been fixed in preceding commits.
+
+On failure, the chunk size is included in the "FAIL" log prints.
+
+Origin: https://github.com/libexpat/libexpat/commit/1d8ceb26aa37f83b1a3d63d03fa2debe91478089
+Origin: https://github.com/libexpat/libexpat/commit/795cf9992248b00be33cbde922e0b1ecc32a3491
+Origin: https://github.com/libexpat/libexpat/commit/d2b31760cd5d22b26316d407789caded826857e3
+---
+ expat/tests/runtests.c | 40 +++++++++++++++++++++++++---------------
+ 1 file changed, 25 insertions(+), 15 deletions(-)
+
+diff --git a/expat/tests/runtests.c b/expat/tests/runtests.c
+index f792871..47a5b15 100644
+--- a/expat/tests/runtests.c
++++ b/expat/tests/runtests.c
+@@ -108,6 +108,9 @@ typedef unsigned __int64 uint64_t;
+ 
+ static XML_Parser g_parser = NULL;
+ 
++/* Used to control _XML_Parse_SINGLE_BYTES() chunk size */
++int g_chunkSize = 1;
++
+ static void
+ tcase_add_test__ifdef_xml_dtd(TCase *tc, tcase_test_function test) {
+ #ifdef XML_DTD
+@@ -152,22 +155,22 @@ _xml_failure(XML_Parser parser, const char *file, int line) {
+ static enum XML_Status
+ _XML_Parse_SINGLE_BYTES(XML_Parser parser, const char *s, int len,
+                         int isFinal) {
+-  enum XML_Status res = XML_STATUS_ERROR;
+-  int offset = 0;
+-
+-  if (len == 0) {
+-    return XML_Parse(parser, s, len, isFinal);
+-  }
+-
+-  for (; offset < len; offset++) {
+-    const int innerIsFinal = (offset == len - 1) && isFinal;
+-    const char c = s[offset]; /* to help out-of-bounds detection */
+-    res = XML_Parse(parser, &c, sizeof(char), innerIsFinal);
+-    if (res != XML_STATUS_OK) {
+-      return res;
++  // This ensures that tests have to run pathological parse cases
++  // (e.g. when `s` is NULL) against plain XML_Parse rather than
++  // chunking _XML_Parse_SINGLE_BYTES.
++  assert((parser != NULL) && (s != NULL) && (len >= 0));
++  const int chunksize = g_chunkSize;
++  if (chunksize > 0) {
++    // parse in chunks of `chunksize` bytes as long as not exhausting
++    for (; len > chunksize; len -= chunksize, s += chunksize) {
++      enum XML_Status res = XML_Parse(parser, s, chunksize, XML_FALSE);
++      if (res != XML_STATUS_OK) {
++        return res;
++      }
+     }
+   }
+-  return res;
++  // parse the final chunk, the size of which will be <= chunksize
++  return XML_Parse(parser, s, len, isFinal);
+ }
+ 
+ #define xml_failure(parser) _xml_failure((parser), __FILE__, __LINE__)
+@@ -12241,7 +12244,14 @@ main(int argc, char *argv[]) {
+   }
+   if (verbosity != CK_SILENT)
+     printf("Expat version: %" XML_FMT_STR "\n", XML_ExpatVersion());
+-  srunner_run_all(sr, verbosity);
++
++  for (g_chunkSize = 1; g_chunkSize <= 5; g_chunkSize++) {
++    char context[100];
++    snprintf(context, sizeof(context), "chunksize=%d", g_chunkSize);
++    context[sizeof(context) - 1] = '\0';
++    fprintf(stderr, "Running context %s\n", context);
++    srunner_run_all(sr, verbosity);
++  }
+   nf = srunner_ntests_failed(sr);
+   srunner_free(sr);
+ 

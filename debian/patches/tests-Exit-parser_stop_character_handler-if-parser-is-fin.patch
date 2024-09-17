@@ -1,0 +1,35 @@
+From: Snild Dolkow <snild@sony.com>
+Date: Tue, 26 Sep 2023 12:29:05 +0200
+Subject: tests: Exit parser_stop_character_handler if parser is finished
+
+When test_repeated_stop_parser_between_char_data_calls runs without
+chunking the input -- which I am about to do in my next commit -- the
+parser_stop_character_handler callback happens multiple times. This is
+because stopping the parser doesn't stop all callbacks immediately,
+which is valid (documented) behavior.
+
+The second callback tried to stop the parser again, getting unexpected
+errors. Let's check the parser status on entry and return early if it's
+already finished.
+
+Origin: https://github.com/libexpat/libexpat/commit/b4d2b76a97ab88854a26f4166cb294a0622144cd
+---
+ expat/tests/runtests.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/expat/tests/runtests.c b/expat/tests/runtests.c
+index 894515e..554d485 100644
+--- a/expat/tests/runtests.c
++++ b/expat/tests/runtests.c
+@@ -2057,6 +2057,11 @@ parser_stop_character_handler(void *userData, const XML_Char *s, int len) {
+   UNUSED_P(userData);
+   UNUSED_P(s);
+   UNUSED_P(len);
++  XML_ParsingStatus status;
++  XML_GetParsingStatus(g_parser, &status);
++  if (status.parsing == XML_FINISHED) {
++    return; // the parser was stopped by a previous call to this handler.
++  }
+   XML_StopParser(g_parser, resumable);
+   XML_SetCharacterDataHandler(g_parser, NULL);
+   if (! resumable) {

@@ -1,0 +1,56 @@
+From: Sebastian Pipping <sebastian@pipping.org>
+Date: Mon, 5 Apr 2021 17:23:26 +0200
+Subject: Autotools: Give test suite access to internal symbols
+
+Origin: https://github.com/libexpat/libexpat/commit/f01a61402cd44bb0cb59db43e70309c01acc50d1
+---
+ expat/lib/Makefile.am   | 10 +++++++++-
+ expat/tests/Makefile.am |  4 ++--
+ 2 files changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/expat/lib/Makefile.am b/expat/lib/Makefile.am
+index 05343e2..f35a2e1 100644
+--- a/expat/lib/Makefile.am
++++ b/expat/lib/Makefile.am
+@@ -34,17 +34,25 @@ include_HEADERS = \
+     expat_external.h
+ 
+ lib_LTLIBRARIES = libexpat.la
++noinst_LTLIBRARIES = libexpatinternal.la
+ 
+ libexpat_la_LDFLAGS = \
+     @AM_LDFLAGS@ \
+     -no-undefined \
+     -version-info @LIBCURRENT@:@LIBREVISION@:@LIBAGE@
+ 
+-libexpat_la_SOURCES = \
++libexpat_la_SOURCES =
++
++# This layer of indirection allows
++# the test suite to access internal symbols
++# despite compiling with -fvisibility=hidden
++libexpatinternal_la_SOURCES = \
+     xmlparse.c \
+     xmltok.c \
+     xmlrole.c
+ 
++libexpat_la_LIBADD = libexpatinternal.la
++
+ doc_DATA = \
+     ../AUTHORS \
+     ../Changes
+diff --git a/expat/tests/Makefile.am b/expat/tests/Makefile.am
+index e19fc1a..9724717 100644
+--- a/expat/tests/Makefile.am
++++ b/expat/tests/Makefile.am
+@@ -52,8 +52,8 @@ runtests_SOURCES = \
+ runtestspp_SOURCES = \
+     runtestspp.cpp
+ 
+-runtests_LDADD = libruntests.a ../lib/libexpat.la
+-runtestspp_LDADD = libruntests.a ../lib/libexpat.la
++runtests_LDADD = libruntests.a ../lib/libexpatinternal.la
++runtestspp_LDADD = libruntests.a ../lib/libexpatinternal.la
+ 
+ EXTRA_DIST = \
+     chardata.h \
