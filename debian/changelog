@@ -1,3 +1,20 @@
+expat (2.5.0-1+pexip24u4+deb12u1) pexip; urgency=medium
+
+  * New upstream release with security fixes.
+
+ -- Steve McIntyre <steve.mcintyre@pexip.com>  Wed, 25 Sep 2024 11:47:59 +0000
+
+expat (2.5.0-1+deb12u1) bookworm-security; urgency=medium
+
+  * Backport security fix for CVE-2024-45490: reject negative len for
+    XML_ParseBuffer() (closes: #1080149).
+  * Backport security fix for CVE-2024-45491: detect integer overflow in
+    dtdCopy() (closes: #1080150).
+  * Backport security fix for CVE-2024-45492: detect integer overflow in
+    function nextScaffoldPart() (closes: #1080152).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 08 Sep 2024 08:44:19 +0200
+
 expat (2.5.0-1+pexip24u3) pexip-bookworm; urgency=medium
 
   * New versioning scheme
