@@ -54,6 +54,7 @@ libexpat.so.1 libexpat1 #MINVER#
  XML_SetNotationDeclHandler@Base 2.0.1
  XML_SetParamEntityParsing@Base 2.0.1
  XML_SetProcessingInstructionHandler@Base 2.0.1
+ XML_SetReparseDeferralEnabled@Base 2.6.0
  XML_SetReturnNSTriplet@Base 2.0.1
  XML_SetSkippedEntityHandler@Base 2.0.1
  XML_SetStartCdataSectionHandler@Base 2.0.1
@@ -123,6 +124,7 @@ libexpatw.so.1 libexpat1 #MINVER#
  XML_SetNotationDeclHandler@Base 2.0.1
  XML_SetParamEntityParsing@Base 2.0.1
  XML_SetProcessingInstructionHandler@Base 2.0.1
+ XML_SetReparseDeferralEnabled@Base 2.6.0
  XML_SetReturnNSTriplet@Base 2.0.1
  XML_SetSkippedEntityHandler@Base 2.0.1
  XML_SetStartCdataSectionHandler@Base 2.0.1
