@@ -3,3 +3,6 @@ fix-expat-cmake.patch
 CVE-2024-45490.patch
 CVE-2024-45491.patch
 CVE-2024-45492.patch
+expat-2.5.0-CVE-2023-52425.patch
+expat-2.5.0-CVE-2024-50602.patch
+expat-2.5.0-CVE-2024-8176.patch
