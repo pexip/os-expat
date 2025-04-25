@@ -1,1 +1,1 @@
-lib/*/libexpat.so.*	usr/lib
+usr/lib/*/libexpat.so.*	usr/lib

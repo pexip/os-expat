@@ -1,3 +1,94 @@
+expat (2.7.1-1) unstable; urgency=medium
+
+  * New upstream release:
+    - fixes libxml-parser-perl regression (closes: #1100845).
+  * Update watch file.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Thu, 27 Mar 2025 19:56:41 +0100
+
+expat (2.7.0-1) unstable; urgency=high
+
+  * New upstream release:
+    - fixes CVE-2024-8176: long linear chains of entities crash with stack
+      overflow.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Fri, 14 Mar 2025 20:12:24 +0100
+
+expat (2.6.4-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Fri, 08 Nov 2024 17:45:00 +0100
+
+expat (2.6.3-2) unstable; urgency=high
+
+  * Backport upstream fix for CVE-2024-50602: stop XML_ResumeParser() from
+    crashing (closes: #1086134).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 27 Oct 2024 17:58:30 +0100
+
+expat (2.6.3-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Update watch file.
+  * Update Standards-Version to 4.7.0 .
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Wed, 04 Sep 2024 20:33:01 +0200
+
+expat (2.6.2-2) unstable; urgency=high
+
+  * Backport security fix for CVE-2024-45490: reject negative len for
+    XML_ParseBuffer() (closes: #1080149).
+  * Backport security fix for CVE-2024-45491: detect integer overflow in
+    dtdCopy() (closes: #1080150).
+  * Backport security fix for CVE-2024-45492: detect integer overflow in
+    function nextScaffoldPart() (closes: #1080152).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sat, 31 Aug 2024 11:48:45 +0200
+
+expat (2.6.2-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Wed, 13 Mar 2024 21:40:29 +0100
+
+expat (2.6.1-2) unstable; urgency=high
+
+  * Backport security fix for CVE-2024-28757: prevent billion laughs attacks
+    in isolated external parser (closes: #1065868).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 10 Mar 2024 18:24:38 +0100
+
+expat (2.6.1-1) unstable; urgency=medium
+
+  * New upstream release.
+
+  [ Helmut Grohne <helmut@subdivi.de> ]
+  * Move files to /usr (DEP17) (closes: #1063553).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Wed, 06 Mar 2024 06:55:07 +0100
+
+expat (2.6.0-1) unstable; urgency=high
+
+  * New upstream release:
+    - fixes CVE-2023-52425: fix quadratic runtime issues with big tokens that
+      can cause denial of service (closes: #1063238),
+    - fixes CVE-2023-52426: fix billion laughs attacks for users compiling
+      without XML_DTD defined (which is not common) (closes: #1063240).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Tue, 06 Feb 2024 22:00:26 +0100
+
+expat (2.5.0-2) unstable; urgency=medium
+
+  [ Samuel Thibault <sthibault@debian.org> ]
+  * Generalize libbsd-dev build dependency on kfreebsd and hurd ports
+    (closes: #1035556).
+
+  [ Henry N. <henrynmail-debian@yahoo.com> ]
+  * Fix building with profile nodoc (stage1) (closes: #1037080).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Wed, 14 Jun 2023 22:08:48 +0200
+
 expat (2.5.0-1+pexip24u4+deb12u1) pexip; urgency=medium
 
   * New upstream release with security fixes.

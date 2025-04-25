@@ -1,3 +1,2 @@
 usr/lib/*/*.so.*
-lib/*/*.so.*
 ../../expat/AUTHORS	usr/share/doc/libexpat1/

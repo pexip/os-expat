@@ -1,3 +1,6 @@
+Description: fix path for INTERFACE_INCLUDE_DIRECTORIES
+Author: Matteo F. Vescovi <mfv@debian.org>
+Forwarded: not-needed
 --- a/expat/cmake/autotools/expat.cmake
 +++ b/expat/cmake/autotools/expat.cmake
 @@ -51,6 +51,7 @@
