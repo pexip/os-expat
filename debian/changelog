@@ -1,3 +1,10 @@
+expat (2.7.1-2) unstable; urgency=medium
+
+  * Move libc6 dependency to pre-dependency on libexpat1 to prevent
+    dist-upgrade errors with python packages (closes: #1108934).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Mon, 14 Jul 2025 08:05:27 +0000
+
 expat (2.7.1-1) unstable; urgency=medium
 
   * New upstream release:
