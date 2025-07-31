@@ -1,3 +1,9 @@
+expat (2.7.1-2+pexip25u1) pexip-trixie; urgency=medium
+
+  * New upstream release
+
+ -- Mark Hymers <mark.hymers@pexip.com>  Thu, 31 Jul 2025 13:17:57 +0100
+
 expat (2.7.1-2) unstable; urgency=medium
 
   * Move libc6 dependency to pre-dependency on libexpat1 to prevent
