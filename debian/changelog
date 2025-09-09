@@ -1,3 +1,25 @@
+expat (2.5.0-1+pexip24u5+deb12u2) pexip; urgency=medium
+
+  * New upstream release with security fixes.
+
+ -- Steve McIntyre <steve.mcintyre@pexip.com>  Tue, 09 Sep 2025 15:49:23 +0100
+
+expat (2.5.0-1+deb12u2) bookworm; urgency=medium
+
+  [ Tomas Korbar <tkorbar@redhat.com> ]
+  * Backport security fix for CVE-2023-52425: denial of service with really
+    big tokens.
+  * Backport security fix for CVE-2024-50602: crash within the
+    XML_ResumeParser() function because XML_StopParser can stop/suspend an
+    unstarted parser.
+  * Backport security fix for CVE-2024-8176: long linear chains of entities
+    crash with stack overflow.
+
+  [ Laszlo Boszormenyi (GCS) ]
+  * Update libexpat1 symbols.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sat, 05 Apr 2025 07:36:55 +0200
+
 expat (2.5.0-1+pexip24u4+deb12u1) pexip; urgency=medium
 
   * New upstream release with security fixes.
