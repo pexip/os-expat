@@ -1,2 +1,2 @@
 Add-meson-build-system.patch
-
+meson-add-XML_GE-to-options.patch
