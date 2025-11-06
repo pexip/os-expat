@@ -1,0 +1,42 @@
+From 3198ca2d55f4fb0c8c8e09b028f618ee17b596b0 Mon Sep 17 00:00:00 2001
+From: Havard Graff <havard@pexip.com>
+Date: Thu, 6 Nov 2025 13:32:37 +0100
+Subject: [PATCH] meson: add XML_GE to options
+
+---
+ meson.build       | 1 +
+ meson_options.txt | 6 ++++++
+ 2 files changed, 7 insertions(+)
+
+diff --git a/meson.build b/meson.build
+index 66a4354..69f9c7d 100644
+--- a/meson.build
++++ b/meson.build
+@@ -50,6 +50,7 @@ elif cc.has_header_symbol(header, 'arc4random')
+   config.set('HAVE_ARC4RANDOM', true)
+ endif
+
++config.set10('XML_GE', get_option('xml_ge'))
+ if get_option('xml_dtd')
+   config.set('XML_DTD', true)
+ endif
+diff --git a/meson_options.txt b/meson_options.txt
+index e69c088..bc1f9ce 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -25,6 +25,12 @@ option(
+   value : 'disabled',
+   description : 'Use libbsd for arc4random_buf',
+ )
++option(
++  'xml_ge',
++  type : 'boolean',
++  value : true,
++  description : 'If true make general entities functionality available',
++)
+ option(
+   'xml_dtd',
+   type : 'boolean',
+--
+2.48.1
+
