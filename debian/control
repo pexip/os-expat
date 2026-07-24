@@ -3,9 +3,8 @@ Section: text
 Priority: optional
 Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.org>
 Build-Depends: debhelper-compat (= 13), docbook-to-man,
- docbook2x <!stage1>, libbsd-dev [kfreebsd-any hurd-any]
-Rules-Requires-Root: no
-Standards-Version: 4.7.0
+ docbook2x <!stage1>, libbsd-dev [hurd-any]
+Standards-Version: 4.7.2
 Homepage: https://libexpat.github.io/
 
 Package: libexpat1-dev

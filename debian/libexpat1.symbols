@@ -28,6 +28,8 @@ libexpat.so.1 libexpat1 #MINVER#
  XML_ParserFree@Base 2.0.1
  XML_ParserReset@Base 2.0.1
  XML_ResumeParser@Base 2.0.1
+ XML_SetAllocTrackerActivationThreshold@Base 2.7.2
+ XML_SetAllocTrackerMaximumAmplification@Base 2.7.2
  XML_SetAttlistDeclHandler@Base 2.0.1
  XML_SetBase@Base 2.0.1
  XML_SetBillionLaughsAttackProtectionActivationThreshold@Base 2.4.1
@@ -48,6 +50,7 @@ libexpat.so.1 libexpat1 #MINVER#
  XML_SetEntityDeclHandler@Base 2.0.1
  XML_SetExternalEntityRefHandler@Base 2.0.1
  XML_SetExternalEntityRefHandlerArg@Base 2.0.1
+ XML_SetHashSalt16Bytes@Base 2.8.0
  XML_SetHashSalt@Base 2.1~beta3
  XML_SetNamespaceDeclHandler@Base 2.0.1
  XML_SetNotStandaloneHandler@Base 2.0.1
@@ -98,6 +101,8 @@ libexpatw.so.1 libexpat1 #MINVER#
  XML_ParserFree@Base 2.0.1
  XML_ParserReset@Base 2.0.1
  XML_ResumeParser@Base 2.0.1
+ XML_SetAllocTrackerActivationThreshold@Base 2.7.2
+ XML_SetAllocTrackerMaximumAmplification@Base 2.7.2
  XML_SetAttlistDeclHandler@Base 2.0.1
  XML_SetBase@Base 2.0.1
  XML_SetBillionLaughsAttackProtectionActivationThreshold@Base 2.4.1
@@ -118,6 +123,7 @@ libexpatw.so.1 libexpat1 #MINVER#
  XML_SetEntityDeclHandler@Base 2.0.1
  XML_SetExternalEntityRefHandler@Base 2.0.1
  XML_SetExternalEntityRefHandlerArg@Base 2.0.1
+ XML_SetHashSalt16Bytes@Base 2.8.0
  XML_SetHashSalt@Base 2.1~beta3
  XML_SetNamespaceDeclHandler@Base 2.0.1
  XML_SetNotStandaloneHandler@Base 2.0.1

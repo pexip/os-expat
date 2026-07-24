@@ -1,4 +1,4 @@
-/* C++ compilation harness for the test suite.
+/* This file is included from other .c files!
                             __  __            _
                          ___\ \/ /_ __   __ _| |_
                         / _ \\  /| '_ \ / _` | __|
@@ -6,7 +6,7 @@
                         \___/_/\_\ .__/ \__,_|\__|
                                  |_| XML parser
 
-   Copyright (c) 2023 Sebastian Pipping <sebastian@pipping.org>
+   Copyright (c) 2022 Sebastian Pipping <sebastian@pipping.org>
    Licensed under the MIT license:
 
    Permission is  hereby granted,  free of charge,  to any  person obtaining
@@ -29,4 +29,20 @@
    USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include "dummy.c"
+static size_t
+xcslen(const XML_Char *s) {
+#ifdef XML_UNICODE
+#  ifdef XML_UNICODE_WCHAR_T
+  return wcslen(s);
+#  else
+  // XML_Char is unsigned short
+  size_t len = 0;
+  while (s[len]) {
+    len++;
+  }
+  return len;
+#  endif
+#else
+  return strlen(s);
+#endif
+}
