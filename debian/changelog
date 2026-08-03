@@ -1,3 +1,117 @@
+expat (2.8.2-1~deb13u1+pexip25u1) pexip-trixie; urgency=medium
+
+  * New upstream release with security fixes
+
+ -- Steve McIntyre <steve.mcintyre@pexip.com>  Mon, 03 Aug 2026 12:23:16 +0100
+
+expat (2.8.2-1~deb13u1) trixie-security; urgency=high
+
+  * Upload 2.8.2 to trixie-security.
+
+ -- Aron Xu <aron@debian.org>  Sat, 25 Jul 2026 05:04:21 +0800
+
+expat (2.8.2-1) unstable; urgency=high
+
+  * New upstream release (closes: #1138862, #1140387, #1140388, #1140557):
+    - fixes CVE-2026-56131: protect XML_ResumeParser() from being called from
+      a handler,
+    - fixes CVE-2026-56132: fix out-of-bound scaffolding index store in
+      doProlog(),
+    - fixes CVE-2026-50219: disallow calls to some functions to guard Expat
+      bindings from memory corruption,
+    - fixes CVE-2026-56403: integer overflow in storeAtts(),
+    - fixes CVE-2026-56404: integer overflow in addBinding(),
+    - fixes CVE-2026-56405: integer overflow in getAttributeId(),
+    - fixes CVE-2026-56406: integer overflow in XML_ParseBuffer(),
+    - fixes CVE-2026-56407: integer overflow in textLen handling,
+    - fixes CVE-2026-56408: integer overflow in copyString(),
+    - fixes CVE-2026-56409: integer overflow in output path join in xmlwf,
+    - fixes CVE-2026-56410: integer overflow in resolveSystemId() in xmlwf,
+    - fixes CVE-2026-56411: Integer overflow in notation list allocation
+      in xmlwf,
+    - fixes CVE-2026-56412: guard XML_TOK_DATA_CHARS handler calls
+      in doCdataSection().
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Thu, 25 Jun 2026 19:44:46 +0200
+
+expat (2.8.1-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sat, 23 May 2026 09:01:54 +0200
+
+expat (2.8.0-2) unstable; urgency=high
+
+  * Backport upstream fixes for self-testing:
+    - drop casts around malloc that C99 does not need,
+    - drop casts around XML_GetUserData that C99 does not need.
+  * Backport upstream fixes for CVE-2026-45186: attribute name collision
+    checks allowed denial of service attacks through moderately sized
+    crafted XML input (closes: #1136164).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 10 May 2026 16:51:27 +0200
+
+expat (2.8.0-1) unstable; urgency=high
+
+  * New upstream release:
+    - fixes CVE-2026-41080: improve protection against hash flooding
+      (closes: #1134732).
+  * Update libexpat1 symbols.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sat, 25 Apr 2026 07:19:30 +0200
+
+expat (2.7.5-1) unstable; urgency=high
+
+  * New upstream release:
+    - fixes CVE-2026-32776: NULL function pointer dereference for empty
+      external parameter entities (closes: #1131117),
+    - fixes CVE-2026-32777: protect from XML_TOK_INSTANCE_START infinite
+      loop in entityValueProcessor() (closes: #1131118),
+    - fixes CVE-2026-32778: NULL dereference in setContext() on retry after
+      an earlier ouf-of-memory condition (closes: #1131119).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Tue, 17 Mar 2026 22:23:17 +0100
+
+expat (2.7.4-1) unstable; urgency=high
+
+  * New upstream release:
+    - fixes CVE-2026-25210: integer overflow check for tag buffer
+      reallocation (closes: #1126697),
+    - no longer ships expat.m4 file.
+  * Update watch file.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sat, 31 Jan 2026 15:29:44 +0100
+
+expat (2.7.3-2) unstable; urgency=high
+
+  * Backport upstream fix for CVE-2026-24515: make
+    XML_ExternalEntityParserCreate() copy unknown encoding handler user data
+    (closes: 1126277).
+  * Remove now redundant Rules-Requires-Root value.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Fri, 23 Jan 2026 16:48:32 +0100
+
+expat (2.7.3-1) unstable; urgency=high
+
+  * New upstream release:
+    - fix alignment of internal allocations for some non-amd64
+      architectures, fixes up on the fix to CVE-2025-59375,
+    - fix a class of false positives where input should have been rejected
+      with error XML_ERROR_ASYNC_ENTITY; regression from CVE-2024-8176.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Wed, 24 Sep 2025 23:31:38 +0200
+
+expat (2.7.2-1) unstable; urgency=high
+
+  * New upstream release:
+    - fixes CVE-2025-59375: disallow use of disproportional amounts of
+      dynamic memory from within an Expat parser (closes: #1115298).
+  * Update fix-expat-cmake patch.
+  * Update libexpat1 symbols.
+  * Update Standards-Version to 4.7.2 .
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Tue, 16 Sep 2025 19:59:38 +0200
+
 expat (2.7.1-2+pexip25u2) pexip-trixie; urgency=medium
 
   * Trixie build for product distribution
