@@ -4,18 +4,18 @@ Date: Thu, 2 Nov 2023 15:40:06 +0100
 Subject: [PATCH] Add meson build system
 
 ---
- meson.build       | 216 ++++++++++++++++++++++++++++++++++++++++++++++
+ meson.build       | 232 ++++++++++++++++++++++++++++++++++++++++++++++
  meson_options.txt |  52 +++++++++++
- 2 files changed, 268 insertions(+)
+ 2 files changed, 284 insertions(+)
  create mode 100644 meson.build
  create mode 100644 meson_options.txt
 
 diff --git a/meson.build b/meson.build
 new file mode 100644
-index 0000000..66a4354
+index 0000000..30a7eb6
 --- /dev/null
 +++ b/meson.build
-@@ -0,0 +1,216 @@
+@@ -0,0 +1,232 @@
 +# Copyright © 2018 Dylan Baker
 +# Copyright © 2018,2020 Intel Corporation
 +
@@ -167,6 +167,22 @@ index 0000000..66a4354
 +    'expat/lib/xmltok.c',
 +  ),
 +]
++
++# Since 2.8.0 the entropy providers live in their own translation units, so we
++# need to compile the ones matching the configuration detected above.
++if config.get('HAVE_ARC4RANDOM_BUF', false)
++  _files += files('expat/lib/random_arc4random_buf.c')
++elif config.get('HAVE_ARC4RANDOM', false)
++  _files += files('expat/lib/random_arc4random.c')
++endif
++if config.get('HAVE_GETRANDOM', false) or config.get('HAVE_SYSCALL_GETRANDOM', false)
++  _files += files('expat/lib/random_getrandom.c')
++endif
++if host_machine.system() == 'windows'
++  _files += files('expat/lib/random_rand_s.c')
++elif host_machine.system() != 'cygwin' and get_option('use_dev_urandom')
++  _files += files('expat/lib/random_dev_urandom.c')
++endif
 +
 +# the lib/libexpat.def file is not valid with mingw, only with mvsc, intel-cl,
 +# and clang-cl
