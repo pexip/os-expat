@@ -1,8 +1,17 @@
-expat (2.8.2-1~deb13u1) trixie-security; urgency=high
+expat (2.8.3-1~deb13u1) trixie-security; urgency=high
 
-  * Upload 2.8.2 to trixie-security.
+  * Non-maintainer upload by the Security Team.
+  * Upload 2.8.3 to trixie-security.
 
- -- Aron Xu <aron@debian.org>  Sat, 25 Jul 2026 05:04:21 +0800
+ -- Aron Xu <aron@debian.org>  Thu, 13 Aug 2026 10:05:43 +0800
+
+expat (2.8.3-1) unstable; urgency=high
+
+  * New upstream release:
+    - fixes CVE-2026-72522: out of bounds read and resultant infinite loop
+      (closes: #1144064).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Tue, 11 Aug 2026 06:52:38 +0200
 
 expat (2.8.2-1) unstable; urgency=high
 
