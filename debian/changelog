@@ -1,14 +1,29 @@
+expat (2.8.3-1~deb13u1+pexip25u1) pexip-trixie; urgency=medium
+
+  * New upstream release with security fixes
+
+ -- Steve McIntyre <steve.mcintyre@pexip.com>  Fri, 21 Aug 2026 10:45:26 +0100
+
+expat (2.8.3-1~deb13u1) trixie-security; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * Upload 2.8.3 to trixie-security.
+
+ -- Aron Xu <aron@debian.org>  Thu, 13 Aug 2026 10:05:43 +0800
+
+expat (2.8.3-1) unstable; urgency=high
+
+  * New upstream release:
+    - fixes CVE-2026-72522: out of bounds read and resultant infinite loop
+      (closes: #1144064).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Tue, 11 Aug 2026 06:52:38 +0200
+
 expat (2.8.2-1~deb13u1+pexip25u1) pexip-trixie; urgency=medium
 
   * New upstream release with security fixes
 
  -- Steve McIntyre <steve.mcintyre@pexip.com>  Mon, 03 Aug 2026 12:23:16 +0100
-
-expat (2.8.2-1~deb13u1) trixie-security; urgency=high
-
-  * Upload 2.8.2 to trixie-security.
-
- -- Aron Xu <aron@debian.org>  Sat, 25 Jul 2026 05:04:21 +0800
 
 expat (2.8.2-1) unstable; urgency=high
 
