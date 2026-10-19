@@ -4,18 +4,18 @@ Date: Thu, 2 Nov 2023 15:40:06 +0100
 Subject: [PATCH] Add meson build system
 
 ---
- meson.build       | 232 ++++++++++++++++++++++++++++++++++++++++++++++
+ meson.build       | 233 ++++++++++++++++++++++++++++++++++++++++++++++
  meson_options.txt |  52 +++++++++++
- 2 files changed, 284 insertions(+)
+ 2 files changed, 285 insertions(+)
  create mode 100644 meson.build
  create mode 100644 meson_options.txt
 
 diff --git a/meson.build b/meson.build
 new file mode 100644
-index 0000000..30a7eb6
+index 0000000..f4f4181
 --- /dev/null
 +++ b/meson.build
-@@ -0,0 +1,232 @@
+@@ -0,0 +1,233 @@
 +# Copyright © 2018 Dylan Baker
 +# Copyright © 2018,2020 Intel Corporation
 +
@@ -162,6 +162,7 @@ index 0000000..30a7eb6
 +
 +_files = [
 +  files(
++    'expat/lib/xcs.c',
 +    'expat/lib/xmlparse.c',
 +    'expat/lib/xmlrole.c',
 +    'expat/lib/xmltok.c',
